@@ -1,0 +1,9 @@
+/# header This file contains all kinds of data
+
+Andrej Popjak
+Renata
+015502326
+apopjak@gmail.com
+barbara
+Test
+0950589323
