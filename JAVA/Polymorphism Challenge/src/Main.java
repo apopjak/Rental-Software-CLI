@@ -3,8 +3,5 @@ public class Main {
 
         Car skoda = Car.typeOfCar("electric");
         skoda.drive();
-
-
-
     }
 }
