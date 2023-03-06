@@ -16,4 +16,12 @@ public class User {
     public String toString() {
         return userid + "," + name + "\n";
     }
+
+    public UUID getUserid() {
+        return userid;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
