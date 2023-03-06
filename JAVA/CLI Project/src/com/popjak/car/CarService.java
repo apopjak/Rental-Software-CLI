@@ -2,6 +2,8 @@ package com.popjak.car;
 
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CarService {
@@ -45,9 +47,51 @@ public class CarService {
             case 'B' -> String.valueOf(EngineType.BENZIN);
             case 'D' -> String.valueOf(EngineType.DIESEL);
             case 'E' -> String.valueOf(EngineType.ELECTRIC);
-            case 'H' -> String.valueOf(EngineType.HYBRID);
             default -> String.valueOf(EngineType.NONE);
         };
     }
+    public static void carLoopUpELECTRIC(){
+        // s for scanner
+        // Method scans CSV and look for the car.
+        System.out.println("Zoznam hladanuch aut: \n-----------------------\n");
+        try{
+            Scanner s = new Scanner(CarDAO.getAccessToFile());
+            while (s.hasNext()) {
 
+                // converting CSV to list and analyzing if car exists in the list.
+                List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
+
+                if (list.get(4).equals("ELECTRIC")){
+                    // output format
+                    String detailedView = "SPZ:" + list.get(0) + ", " + list.get(1) + " " + list.get(2) + ", rocnik " + list.get(3) +
+                            ", "  + list.get(4) + ", " +  list.get(5) + "€ na den";
+                    System.out.println(detailedView);
+                }
+            }
+        } catch (IOException e ){
+            System.out.println("error");
+        }
+    }
+    public static void carLoopUpPETROL(){
+        // s for scanner
+        // Method scans CSV and look for the car.
+        System.out.println("Zoznam hladanuch aut: \n-----------------------\n");
+        try{
+            Scanner s = new Scanner(CarDAO.getAccessToFile());
+            while (s.hasNext()) {
+
+                // converting CSV to list and analyzing if car exists in the list.
+                List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
+
+                if (list.get(4).equals("BENZIN") || list.get(4).equals("DIESEL")){
+                    // output format
+                    String detailedView = "SPZ:" + list.get(0) + ", " + list.get(1) + " " + list.get(2) + ", rocnik " + list.get(3) +
+                            ", "  + list.get(4) + ", " +  list.get(5) + "€ na den";
+                    System.out.println(detailedView);
+                }
+            }
+        } catch (IOException e ){
+            System.out.println("error");
+        }
+    }
 }

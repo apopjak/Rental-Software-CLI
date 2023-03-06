@@ -19,28 +19,6 @@ public class Car {
         this.engineType = engineType;
         this.najomNaDenCena = najomNaDenCena;
     }
-    public static void addNewCarToDB(){
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("SPZ: ");
-        String spz = sc.nextLine().trim().toUpperCase();
-
-        System.out.print("Znacka: ");
-        String znacka = sc.nextLine().trim().toUpperCase();
-
-        System.out.print("Model: ");
-        String model = sc.nextLine().trim().toUpperCase();
-
-        System.out.print("Typ Motora: ");
-        String motor = CarService.getEngineType(sc.nextLine());
-
-
-        System.out.print("Cena Najmu na den: ");
-        String cenaNajmu = sc.nextLine();
-        Car car = new Car(spz,znacka,model,2018,motor,
-                cenaNajmu);
-        CarService.addCarToDatabase(car);
-    }
 
     @Override
     public String toString() {

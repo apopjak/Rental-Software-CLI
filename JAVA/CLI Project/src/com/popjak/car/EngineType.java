@@ -5,5 +5,4 @@ public enum EngineType {
     ELECTRIC,
     DIESEL,
     BENZIN,
-    HYBRID
 }
