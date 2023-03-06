@@ -9,8 +9,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserServices {
+
     public static void registerUser(){
-        // adds car into the database IF car is not in there already
+        /**
+         User Registration Method. Adds user to userDatabase.csv
+         **/
+
         try(
                 // closable flushable
                 FileWriter fileWriter = new FileWriter(UserDAO.getAccessToFile(),true);
@@ -28,9 +32,13 @@ public class UserServices {
             System.out.println(e.getMessage() + "Car Services");
         }
     }
+
     public static void viewAllUsers(){
+        /**
+         Method filter all users in database and print them to user!
+         **/
+
         // s for scanner
-        // Method scans user database and filter all users
         System.out.println("Zoznam uzivatelov: \n-----------------------\n");
         try{
             Scanner s = new Scanner(UserDAO.getAccessToFile());

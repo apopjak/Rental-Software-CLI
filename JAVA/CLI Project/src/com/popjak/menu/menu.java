@@ -8,7 +8,10 @@ import java.util.Scanner;
 public class Menu {
 
     public static void mainMenu() {
-        // Main Menu, while loop
+        /**
+         METHOD SHOWS MAIN MENU TO USER
+         **/
+
         String input;
         String mainMenu = """
                 
@@ -24,7 +27,6 @@ public class Menu {
                 """;
 
         Scanner sc = new Scanner(System.in);
-        // TODO: add switch statement here to control the menu
         while (true) {
             System.out.println(mainMenu);
             input = sc.nextLine();
