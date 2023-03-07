@@ -1,7 +1,10 @@
 package com.popjak.car;
 
+import com.popjak.user.UserDAO;
+
 import java.io.*;
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,7 +13,7 @@ public class CarService {
 
     public static void showCars(String input) {
         /**
-         Method searching in database for benzin and diesel cars only
+         Method searching in database for cars based on engine type
          **/
 
         // s for scanner
@@ -48,7 +51,7 @@ public class CarService {
 
     public static boolean lookUpCarBySPZ(String SPZ){
         /**
-         Method searching in database for electric cars only
+         Method searching in database for cars by SPZ
          **/
 
         // s for scanner
@@ -70,6 +73,10 @@ public class CarService {
         return false;
     }
     public static BigDecimal getPrice(String SPZ){
+        /**
+         Method is getting daily rent price for car based on SPZ.
+         **/
+
         BigDecimal price;
         try{
             Scanner s = new Scanner(CarDAO.getAccessToFile());
@@ -86,4 +93,23 @@ public class CarService {
         }
         return new BigDecimal(0);
     }
+    public static String getCarString(String spz) {
+        if (lookUpCarBySPZ(spz)) {
+            try{
+                Scanner s = new Scanner(CarDAO.getAccessToFile());
+                while (s.hasNext()) {
+
+                    // converting CSV to list and analyzing if car exists in the list.
+                    List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
+                    if (spz.toUpperCase().equals(list.get(0))) {
+                        return list.get(0) + "," + list.get(1) + "," + list.get(2) + "," + list.get(3) + "," + list.get(4) + "," + list.get(5);
+                    }
+                }
+            } catch (IOException e ){
+                System.out.println(e.getMessage());
+            }
+        }
+        return "NULL";
+    }
+
 }

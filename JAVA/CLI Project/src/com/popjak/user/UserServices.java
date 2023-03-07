@@ -53,5 +53,40 @@ public class UserServices {
             System.out.println(e.getMessage());
         }
     }
+    private static boolean userExists(String uuid){
+        try{
+            Scanner s = new Scanner(UserDAO.getAccessToFile());
+            while (s.hasNext()) {
+
+                // converting CSV to list and analyzing if car exists in the list.
+                List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
+                if (uuid.equals(list.get(0))) {
+                    return true;
+                }
+            }
+        } catch (IOException e ){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    public static String getUserString(String uuid) {
+        if (userExists(uuid)) {
+            try{
+                Scanner s = new Scanner(UserDAO.getAccessToFile());
+                while (s.hasNext()) {
+
+                    // converting CSV to list and analyzing if car exists in the list.
+                    List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
+                    if (uuid.equals(list.get(0))) {
+                        return list.get(0) + "," + list.get(1);
+                    }
+                }
+            } catch (IOException e ){
+                System.out.println(e.getMessage());
+            }
+
+        }
+        return "NULL";
+    }
 
 }
