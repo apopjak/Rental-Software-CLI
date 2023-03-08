@@ -1,15 +1,14 @@
 package com.popjak.car;
 
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Car {
-    private String spz;
-    private String znacka;
-    private String model;
-    private int rocnik;
-    private String engineType;
-    private String najomNaDenCena;
+    private final String spz;
+    private final String znacka;
+    private final String model;
+    private final int rocnik;
+    private final String engineType;
+    private final String najomNaDenCena;
 
     public Car(String spz, String znacka, String model, int rocnik, String engineType, String najomNaDenCena) {
         this.spz = spz;
@@ -43,51 +42,6 @@ public class Car {
         return Objects.hash(znacka, model, rocnik, engineType, spz, najomNaDenCena);
     }
 
-    public String getZnacka() {
-        return znacka;
-    }
 
-    public void setZnacka(String znacka) {
-        this.znacka = znacka;
-    }
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public int getRocnik() {
-        return rocnik;
-    }
-
-    public void setRocnik(int rocnik) {
-        this.rocnik = rocnik;
-    }
-
-    public String getEngineType() {
-        return engineType;
-    }
-
-    public void setEngineType(String engineType) {
-        this.engineType = engineType;
-    }
-
-    public String getSpz() {
-        return spz;
-    }
-
-    public void setSpz(String spz) {
-        this.spz = spz;
-    }
-
-    public String getNajomNaDenCena() {
-        return najomNaDenCena;
-    }
-
-    public void setNajomNaDenCena(String najomNaDenCena) {
-        this.najomNaDenCena = najomNaDenCena;
-    }
 }

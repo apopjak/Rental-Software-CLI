@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class User {
 
-    private UUID userid;
-    private String name;
+    private final UUID userid;
+    private final String name;
 
     public User(String name) {
         userid = UUID.randomUUID();
@@ -17,11 +17,4 @@ public class User {
         return userid + "," + name + "\n";
     }
 
-    public UUID getUserid() {
-        return userid;
-    }
-
-    public String getName() {
-        return name;
-    }
 }

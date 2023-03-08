@@ -1,10 +1,8 @@
 package com.popjak.car;
 
-import com.popjak.user.UserDAO;
-
-import java.io.*;
+import com.popjak.booking.BookingDAO;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,11 +10,10 @@ import java.util.Scanner;
 public class CarService {
 
     public static void showCars(String input) {
-        /**
-         Method searching in database for cars based on engine type
-         **/
+        // Method searching in database for cars based on engine type and returns only cars which are not in bookedCARSDB
 
-        // s for scanner
+        // list of cars which are booked already
+        List<String> bookedCars = showBookedCars();
         System.out.println("The list of available cars: \n-----------------------\n");
         try{
             Scanner s = new Scanner(CarDAO.getAccessToFile());
@@ -24,24 +21,27 @@ public class CarService {
                 // converting CSV to list and analyzing if car exists in the list.
                 List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
 
-                // if PETROL then output
+                // if PETROL it returns diesel and benzin available cars
                 if(input.equals("PETROL")){
-                    if (list.get(4).equals("BENZIN") || list.get(4).equals("DIESEL")){
+                    if (list.get(4).equals("BENZIN") || list.get(4).equals("DIESEL") && (!bookedCars.contains(list.get(0)))){
                         String detailedView = "SPZ:" + list.get(0) + ", " + list.get(1) + " " + list.get(2) + ", year " + list.get(3) +
                                 ", "  + list.get(4) + ", " +  list.get(5) + "€ per day";
                         System.out.println(detailedView);
                     }
-                // IF ELECTRIC
+                    // IF ELECTRIC it returns electric available cars
                 } else if (input.equals("ELECTRIC")) {
-                    if (list.get(4).equals("ELECTRIC")){
+                    if (list.get(4).equals("ELECTRIC") && (!bookedCars.contains(list.get(0)))){
                         String detailedView = "SPZ:" + list.get(0) + ", " + list.get(1) + " " + list.get(2) + ", year " + list.get(3) +
                                 ", "  + list.get(4) + ", " +  list.get(5) + "€ per day";
                         System.out.println(detailedView);
                     }
+                    // IF ALL it returns all available cars
                 } else if (input.equals("ALL")) {
-                    String detailedView = list.get(0) + ", " + list.get(1) + " " + list.get(2) + ", year " + list.get(3) +
-                            ", "  + list.get(4) + ", " +  list.get(5) + "€ per day";
-                    System.out.println(detailedView);
+                    if ((!bookedCars.contains(list.get(0)))){
+                        String detailedView = "SPZ:" + list.get(0) + ", " + list.get(1) + " " + list.get(2) + ", year " + list.get(3) +
+                                ", "  + list.get(4) + ", " +  list.get(5) + "€ per day";
+                        System.out.println(detailedView);
+                    }
                 }
             }
         } catch (IOException e ){
@@ -50,11 +50,8 @@ public class CarService {
     }
 
     public static boolean lookUpCarBySPZ(String SPZ){
-        /**
-         Method searching in database for cars by SPZ
-         **/
+        // HELPER Method searching in database for cars by SPZ
 
-        // s for scanner
         try{
             Scanner s = new Scanner(CarDAO.getAccessToFile());
             while (s.hasNext()) {
@@ -73,9 +70,7 @@ public class CarService {
         return false;
     }
     public static BigDecimal getPrice(String SPZ){
-        /**
-         Method is getting daily rent price for car based on SPZ.
-         **/
+        // Method is getting daily rent price for car based on SPZ.
 
         BigDecimal price;
         try{
@@ -94,6 +89,8 @@ public class CarService {
         return new BigDecimal(0);
     }
     public static String getCarString(String spz) {
+        // Method returns a string
+
         if (lookUpCarBySPZ(spz)) {
             try{
                 Scanner s = new Scanner(CarDAO.getAccessToFile());
@@ -111,5 +108,24 @@ public class CarService {
         }
         return "NULL";
     }
+    private static List<String> showBookedCars(){
+        //Method returns list of booked SPZs
 
+        try {
+            Scanner s = new Scanner(BookingDAO.getAccessToFile());
+            List<String> bookedSPZ = new ArrayList<>();
+            ArrayList<String> a = null;
+            while (s.hasNext()) {
+                // converting CSV to list and analyzing if car exists in the list.
+                a = new ArrayList<>(List.of(s.nextLine().substring(0,7)));
+                for (int i = 0; i < a.size(); i++) {
+                    bookedSPZ.add(a.get(i));
+                }
+            }
+            return bookedSPZ;
+        } catch (IOException e ){
+            System.out.println("error");
+        }
+        return null;
+    }
 }

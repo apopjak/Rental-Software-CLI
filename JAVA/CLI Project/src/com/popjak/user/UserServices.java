@@ -11,9 +11,7 @@ import java.util.Scanner;
 public class UserServices {
 
     public static void registerUser(){
-        /**
-         User Registration Method. Adds user to userDatabase.csv
-         **/
+        // User Registration Method. Adds user to userDatabase.csv
 
         try(
                 // closable flushable
@@ -34,11 +32,8 @@ public class UserServices {
     }
 
     public static void viewAllUsers(){
-        /**
-         Method filter all users in database and print them to user!
-         **/
+        // Method filter all users in database and print them to user!
 
-        // s for scanner
         System.out.println("Zoznam uzivatelov: \n-----------------------\n");
         try{
             Scanner s = new Scanner(UserDAO.getAccessToFile());
@@ -54,6 +49,8 @@ public class UserServices {
         }
     }
     private static boolean userExists(String uuid){
+        // Returns true if user exists
+
         try{
             Scanner s = new Scanner(UserDAO.getAccessToFile());
             while (s.hasNext()) {
@@ -70,6 +67,8 @@ public class UserServices {
         return false;
     }
     public static String getUserString(String uuid) {
+        // Method return string of the user for booking database
+
         if (userExists(uuid)) {
             try{
                 Scanner s = new Scanner(UserDAO.getAccessToFile());

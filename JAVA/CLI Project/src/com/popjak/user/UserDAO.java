@@ -5,6 +5,7 @@ import java.io.IOException;
 
 public class UserDAO {
     public static File getAccessToFile() throws IOException {
+        // Method gives access to file
 
         File file = new File("src/com/popjak/dataStrorage/userDB.csv");
         if (!file.exists()) {

@@ -1,5 +1,4 @@
 package com.popjak.menu;
-
 import com.popjak.booking.BookingServices;
 import com.popjak.car.CarService;
 import com.popjak.user.UserServices;
@@ -9,9 +8,7 @@ import java.util.Scanner;
 public class Menu {
 
     public static void mainMenu() {
-        /**
-         METHOD SHOWS MAIN MENU TO USER
-         **/
+        // MAIN MENU Method
 
         String input;
         String mainMenu = """
