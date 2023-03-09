@@ -4,29 +4,29 @@ import java.util.Objects;
 
 public class Car {
     private final String spz;
-    private final String znacka;
+    private final String brand;
     private final String model;
-    private final int rocnik;
+    private final int year;
     private final String engineType;
-    private final String najomNaDenCena;
+    private final String rentPerDay;
 
     public Car(String spz, String znacka, String model, int rocnik, String engineType, String najomNaDenCena) {
         this.spz = spz;
-        this.znacka = znacka;
+        this.brand = znacka;
         this.model = model;
-        this.rocnik = rocnik;
+        this.year = rocnik;
         this.engineType = engineType;
-        this.najomNaDenCena = najomNaDenCena;
+        this.rentPerDay = najomNaDenCena;
     }
 
     @Override
     public String toString() {
         return  spz +
-                "," + znacka +
+                "," + brand +
                 "," + model +
-                "," + rocnik +
+                "," + year +
                 "," + engineType +
-                "," + najomNaDenCena + "\n";
+                "," + rentPerDay + "\n";
     }
 
     @Override
@@ -34,12 +34,12 @@ public class Car {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return rocnik == car.rocnik && Objects.equals(znacka, car.znacka) && Objects.equals(model, car.model) && engineType == car.engineType && Objects.equals(spz, car.spz) && Objects.equals(najomNaDenCena, car.najomNaDenCena);
+        return year == car.year && Objects.equals(brand, car.brand) && Objects.equals(model, car.model) && engineType == car.engineType && Objects.equals(spz, car.spz) && Objects.equals(rentPerDay, car.rentPerDay);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(znacka, model, rocnik, engineType, spz, najomNaDenCena);
+        return Objects.hash(brand, model, year, engineType, spz, rentPerDay);
     }
 
 

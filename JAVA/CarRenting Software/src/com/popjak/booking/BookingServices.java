@@ -1,13 +1,9 @@
 package com.popjak.booking;
 
-import com.popjak.car.CarDAO;
 import com.popjak.car.CarService;
 import com.popjak.user.UserServices;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -27,9 +23,9 @@ public class BookingServices {
         System.out.print("\nSelect userID (uuid long code): ");
         UserServices.viewAllUsers();
         String userID = s.nextLine().toLowerCase().trim();
-        String finalString = BookingServices.getFinalStringForExportingToFile(userID,SPZ);
+        String finalString = BookingDAO.getFinalStringForExportingToFile(userID,SPZ);
 
-        // if user enters incorrect info it prints this and break the method.
+        // if user enters incorrect info it prints this and breaks the method.
         if (finalString.contains("NULL")){
             System.out.println("Incorrect userID or SPZ try again please.");
             return;
@@ -70,11 +66,4 @@ public class BookingServices {
         }
     }
 
-    private static String getFinalStringForExportingToFile(String uuid, String spz){
-        // Helper method creates final string which is exported to database.
-
-        UUID randomUuid = UUID.randomUUID();
-        return CarService.getCarString(spz.toUpperCase().trim()) + "," + UserServices.getUserString(uuid.toLowerCase().trim())
-                + "  " + randomUuid +"\n";
-    }
 }

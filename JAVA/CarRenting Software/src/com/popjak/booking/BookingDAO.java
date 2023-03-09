@@ -1,18 +1,21 @@
 package com.popjak.booking;
-
+import com.popjak.car.CarService;
 import com.popjak.user.UserServices;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class BookingDAO {
     // Method gives access to file
-     public static File getAccessToFile() throws IOException {
+     private static File getAccessToFile() throws IOException {
 
         File file = new File("src/com/popjak/dataStrorage/booking.csv");
         if (!file.exists()) {
@@ -75,7 +78,7 @@ public class BookingDAO {
                 // converting CSV to list and analyzing if car exists in the list.
                 List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
                 String detailedView = "User: " + list.get(7) + " userID: " + list.get(6).substring(0,5)
-                        + "-****-****-****-************ " + list.get(0) + ", " + list.get(1) + " " + list.get(2) +
+                        + "-*******" + list.get(0) + ", " + list.get(1) + " " + list.get(2) +
                         ", " +list.get(3) + ", " + list.get(4) + ", " + list.get(5) + "€ per day";
                 System.out.println(detailedView);
             }
@@ -95,5 +98,19 @@ public class BookingDAO {
         }catch (IOException e ) {
             System.out.println(e.getMessage());
         }
+    }
+    public static String getFinalStringForExportingToFile(String uuid, String spz){
+        // Helper method creates final string which is exported to database.
+
+        UUID randomUuid = UUID.randomUUID();
+        return CarService.getCarString(spz.toUpperCase().trim()) + "," + UserServices.getUserString(uuid.toLowerCase().trim())
+                + "  " + randomUuid +"\n";
+    }
+    public static void date(String numberOfDays){
+        LocalDate localDate = LocalDate.now();
+        // TODO create method which is going to be responsible to
+        //  showing date of booking  creation and also how many days customer have left.
+
+         System.out.println(localDate);
     }
 }
