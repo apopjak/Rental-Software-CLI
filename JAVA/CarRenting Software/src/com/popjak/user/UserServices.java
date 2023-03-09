@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class UserServices {
 
+
     public static void registerUser(){
         // User Registration Method. Adds user to userDatabase.csv
 
@@ -31,6 +32,9 @@ public class UserServices {
         }
     }
 
+
+
+
     public static void viewAllUsers(){
         // Method filter all users in database and print them to user!
 
@@ -48,6 +52,9 @@ public class UserServices {
             System.out.println(e.getMessage());
         }
     }
+
+
+
     private static boolean userExists(String uuid){
         // Returns true if user exists
 
@@ -66,6 +73,9 @@ public class UserServices {
         }
         return false;
     }
+
+
+
     public static String getUserString(String uuid) {
         // Method return string of the user for booking database
 

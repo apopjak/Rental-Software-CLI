@@ -10,13 +10,13 @@ public class Car {
     private final String engineType;
     private final String rentPerDay;
 
-    public Car(String spz, String znacka, String model, int rocnik, String engineType, String najomNaDenCena) {
+    public Car(String spz, String brand, String model, int year, String engineType, String rentPerDay) {
         this.spz = spz;
-        this.brand = znacka;
+        this.brand = brand;
         this.model = model;
-        this.year = rocnik;
+        this.year = year;
         this.engineType = engineType;
-        this.rentPerDay = najomNaDenCena;
+        this.rentPerDay = rentPerDay;
     }
 
     @Override
@@ -41,7 +41,6 @@ public class Car {
     public int hashCode() {
         return Objects.hash(brand, model, year, engineType, spz, rentPerDay);
     }
-
 
 
 }

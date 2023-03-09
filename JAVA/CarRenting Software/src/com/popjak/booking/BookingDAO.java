@@ -24,6 +24,8 @@ public class BookingDAO {
         }
         return file;
     }
+
+
     public static void viewUserBookedCars(){
         //  Method asks user what ID you want to check,
         //  and then it prints results how many cars use has booked.
@@ -48,6 +50,9 @@ public class BookingDAO {
             System.out.println("error");
         }
     }
+
+
+
     public static List<String> showBookedCars(){
         //Method returns list of booked SPZs
 
@@ -68,6 +73,9 @@ public class BookingDAO {
         }
         return null;
     }
+
+
+
     public static void viewAllBookings() {
         // Method shows current bookings
 
@@ -86,6 +94,9 @@ public class BookingDAO {
             System.out.println("error");
         }
     }
+
+
+
     static void exportToDatabase(String finalString){
         // Method takes final string and exports it to CSV file.
 
@@ -99,6 +110,9 @@ public class BookingDAO {
             System.out.println(e.getMessage());
         }
     }
+
+
+
     public static String getFinalStringForExportingToFile(String uuid, String spz){
         // Helper method creates final string which is exported to database.
 
@@ -106,6 +120,9 @@ public class BookingDAO {
         return CarService.getCarString(spz.toUpperCase().trim()) + "," + UserServices.getUserString(uuid.toLowerCase().trim())
                 + "  " + randomUuid +"\n";
     }
+
+
+
     public static void date(String numberOfDays){
         LocalDate localDate = LocalDate.now();
         // TODO create method which is going to be responsible to

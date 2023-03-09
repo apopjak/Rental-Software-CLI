@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class CarService {
 
+
+
     public static void showAvailableCars(String input) {
         // Method searching in database for cars based on engine type and returns only cars which are not in bookedCARSDB
         // Method checks if car is not in booking.csv file. If yes it is not going to be printed.
@@ -52,6 +54,9 @@ public class CarService {
             System.out.println("error");
         }
     }
+
+
+
     public static BigDecimal getPrice(String SPZ){
         // Method is getting daily rent price for car based on SPZ (registration number).
 
@@ -71,6 +76,9 @@ public class CarService {
         }
         return new BigDecimal(0);
     }
+
+
+
     public static String getCarString(String spz) {
         // Method returns a string of the car, which can be used for export to database which contains all booked cars
 

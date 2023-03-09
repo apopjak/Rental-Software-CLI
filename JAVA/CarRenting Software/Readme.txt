@@ -9,6 +9,7 @@ What was used in this project so far:
     - Try with resources
 
 What is in going to be implemented
+    - Interfaces
     - Maven
     - Streams
     - Dependency Injection
