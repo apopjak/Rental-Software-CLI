@@ -1,6 +1,6 @@
 package com.popjak.menu;
+import com.popjak.booking.BookingDAO;
 import com.popjak.booking.BookingServices;
-import com.popjak.booking.NewBookingRequest;
 import com.popjak.car.CarService;
 import com.popjak.user.UserServices;
 
@@ -31,11 +31,11 @@ public class Menu {
             input = sc.nextLine();
             if (input.equals("0")) break;
             switch (input) {
-                case "1" -> NewBookingRequest.newBookingRequest();
-                case "2" -> BookingServices.viewUserBookedCars();
-                case "3" -> BookingServices.viewAllBookings();
-                case "4" -> CarService.showCars("PETROL");
-                case "5" -> CarService.showCars("ELECTRIC");
+                case "1" -> BookingServices.newBookingRequest();
+                case "2" -> BookingDAO.viewUserBookedCars();
+                case "3" -> BookingDAO.viewAllBookings();
+                case "4" -> CarService.showAvailableCars("PETROL");
+                case "5" -> CarService.showAvailableCars("ELECTRIC");
                 case "6" -> UserServices.viewAllUsers();
                 case "7" -> UserServices.registerUser();
                 default -> System.out.println(input + " is not a valid option ❌");
