@@ -4,15 +4,18 @@ import com.popjak.car.CarService;
 import com.popjak.user.UserServices;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
 public class BookingServices {
 
     public static void newBookingRequest(){
-        // Method takes care of new booking
 
+        // Method takes care of new booking
+        List<String> bookedCars = BookingDAO.showBookedCars();
         Scanner s = new Scanner(System.in);
+
         // Method is going to print all cars and ask user to enter desired car SPZ.
         CarService.showAvailableCars("ALL");
         System.out.print("\nEnter SPZ of car u want to book: ");
@@ -26,8 +29,8 @@ public class BookingServices {
         String finalString = BookingDAO.getFinalStringForExportingToFile(userID,SPZ);
 
         // if user enters incorrect info it prints this and breaks the method.
-        if (finalString.contains("NULL")){
-            System.out.println("Incorrect userID or SPZ try again please.");
+        if (finalString.contains("NULL")||(bookedCars.contains(SPZ))){
+            System.out.println("Car already booked or incorrect userID/SPZ try again please. ❌");
             return;
         }
 

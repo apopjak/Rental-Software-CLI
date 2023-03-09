@@ -1,3 +1,2 @@
-PO515ZA,Opel,Astra,2019,DIESEL,45,b1d9fbe7-c13e-4c29-acf1-0d86e340b21a,Lubos  8d4e04b7-d7a2-4b57-bd41-e6d5ae54bcde
-BB425ZA,OPEL,ASTRA,2018,DIESEL,36,b8b562a3-e5f1-46eb-9dbe-48e4d2403e32,test  60719c80-8571-400d-af3c-3cb72e395917
-BL110ZA,Porsche,Taycan,2022,ELECTRIC,85,daa1b6fd-1c7a-447c-997a-eca522f10264,Marian  33eb7689-9153-4085-abca-7a6cfaccafae
+spz,brand,model,year,enineType,rentPerDay,userId,userName,bookingId,bookingDate
+BL110ZA,Porsche,Taycan,2022,ELECTRIC,85,513338f3-c049-49bd-9949-f4cce4f5db83,Maros,89323,9.3.2023

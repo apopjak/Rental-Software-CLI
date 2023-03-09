@@ -41,10 +41,11 @@ public class BookingDAO {
                 List<String> list = new ArrayList<>(List.of(reader.nextLine().split(",")));
                 if (list.get(6).equals(uuid)){
                     String detailedView = "User: " + list.get(7) + " userID: " + list.get(6).substring(0,5)
-                            + "-****-****-****-************ " + list.get(0) + ", " + list.get(1) + " " + list.get(2) +
+                            + "-****-**** " + list.get(0) + ", " + list.get(1) + " " + list.get(2) +
                             ", " +list.get(3) + ", " + list.get(4) + ", " + list.get(5) + "€ per day";
                     System.out.println(detailedView);
                 }
+
             }
         } catch (IOException e ){
             System.out.println("error");
@@ -55,6 +56,7 @@ public class BookingDAO {
 
     public static List<String> showBookedCars(){
         //Method returns list of booked SPZs
+        // This Method help to other methods determine if car is booked or not.
 
         try {
             Scanner s = new Scanner(BookingDAO.getAccessToFile());
@@ -85,9 +87,13 @@ public class BookingDAO {
             while (s.hasNext()) {
                 // converting CSV to list and analyzing if car exists in the list.
                 List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
+                if (list.get(0).contains("spz")) {
+                    continue;
+                }
+                // TODO CALCULATE HOW MANY DAYS CX HAS
                 String detailedView = "User: " + list.get(7) + " userID: " + list.get(6).substring(0,5)
-                        + "-*******" + list.get(0) + ", " + list.get(1) + " " + list.get(2) +
-                        ", " +list.get(3) + ", " + list.get(4) + ", " + list.get(5) + "€ per day";
+                        + "-******* " + list.get(0) + ", " + list.get(1) + " " + list.get(2) +
+                        ", " +list.get(3) + ", " + list.get(4) + ", " + list.get(5) + "€ per day, Car ordered at " + list.get(9) + "XX days left";
                 System.out.println(detailedView);
             }
         } catch (IOException e ){
@@ -116,14 +122,14 @@ public class BookingDAO {
     public static String getFinalStringForExportingToFile(String uuid, String spz){
         // Helper method creates final string which is exported to database.
 
-        UUID randomUuid = UUID.randomUUID();
+        Booking booking = new Booking();
         return CarService.getCarString(spz.toUpperCase().trim()) + "," + UserServices.getUserString(uuid.toLowerCase().trim())
-                + "  " + randomUuid +"\n";
+                + "," + booking +"\n";
     }
 
 
 
-    public static void date(String numberOfDays){
+    public static void date(int numberOfDays){
         LocalDate localDate = LocalDate.now();
         // TODO create method which is going to be responsible to
         //  showing date of booking  creation and also how many days customer have left.
