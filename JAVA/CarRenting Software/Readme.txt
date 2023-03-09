@@ -2,7 +2,6 @@ CLI project, Renting app.
 What was used in this project so far:
     - Core
     - Classes
-    - Interfaces
     - Lists
     - work with Files
     - Error Exceptions
