@@ -25,12 +25,11 @@ What was used in this project so far:
     - Error Exceptions
     - Try with resources
     - Interfaces
+   - Dependency Injection
 
-What is in going to be implemented
-    - Interfaces
+What is in going to be implemented    
     - Maven
-    - Streams
-    - Dependency Injection
+    - Streams    
     - Generics
     - Testing in JUnit
 
