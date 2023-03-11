@@ -25,7 +25,7 @@ What was used in this project so far:
     - Error Exceptions
     - Try with resources
     - Interfaces
-   - Dependency Injection
+    - Dependency Injection
 
 What is in going to be implemented    
     - Maven
