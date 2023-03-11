@@ -1,13 +1,13 @@
         1️⃣ - Book Car
         2️⃣ - View All User Booked Cars
-        3️⃣ - View All Bookings
-        4️⃣ - View Available Petrol Cars
-        5️⃣ - View Available Electric Cars
-        6️⃣ - View Available Hybrid Cars
-        7️⃣ - View All users                
-        8️⃣ - Register new user
+                3️⃣ - View All Bookings
+                4️⃣ - View Available Petrol Cars
+                5️⃣ - View Available Electric Cars
+                6️⃣ - View Available Hybrid Cars
+                7️⃣ - View All users                
+                8️⃣ - Register new user
                 
-        0️⃣ - Exit
+                0️⃣ - Exit
 
 CLI project, Renting app.
 Project has 4 sections.

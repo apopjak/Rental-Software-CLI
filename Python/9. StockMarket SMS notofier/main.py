@@ -1,72 +1,53 @@
-import requests
-from twilio.rest import Client
-
-VIRTUAL_TWILIO_NUMBER = "TWILIO"
-VERIFIED_NUMBER = "TWILIO"
-
-STOCK_NAME = "TSLA"
-COMPANY_NAME = "Tesla Inc"
-
-STOCK_ENDPOINT = "https://www.alphavantage.co/query"
-NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
-
-STOCK_API_KEY = "YOUR OWN API KEY FROM ALPHAVANTAGE"
-NEWS_API_KEY = "YOUR OWN API KEY FROM NEWSAPI"
-TWILIO_SID = "YOUR TWILIO ACCOUNT SID"
-TWILIO_AUTH_TOKEN = "YOUR TWILIO AUTH TOKEN"
-
-#Get yesterday's closing stock price
-stock_params = {
-    "function": "TIME_SERIES_DAILY",
-    "symbol": STOCK_NAME,
-    "apikey": STOCK_API_KEY,
-}
-
-response = requests.get(STOCK_ENDPOINT, params=stock_params)
-data = response.json()["Time Series (Daily)"]
-data_list = [value for (key, value) in data.items()]
-yesterday_data = data_list[0]
-yesterday_closing_price = yesterday_data["4. close"]
-print(yesterday_closing_price)
-
-#Get the day before yesterday's closing stock price
-day_before_yesterday_data = data_list[1]
-day_before_yesterday_closing_price = day_before_yesterday_data["4. close"]
-print(day_before_yesterday_closing_price)
-
-difference = float(yesterday_closing_price) - float(day_before_yesterday_closing_price)
-up_down = None
-if difference > 0:
-    up_down = "🔺"
-else:
-    up_down = "🔻"
+from datetime import datetime, timedelta
+from data_manager import DataManager
+from flight_search import FlightSearch
+from notification_manager import NotificationManager
 
 
-diff_percent = round((difference / float(yesterday_closing_price)) * 100)
-print(diff_percent)
+ORIGIN_CITY_IATA = "LON"
 
-if abs(diff_percent) > 1:
-    news_params = {
-        "apiKey": NEWS_API_KEY,
-        "qInTitle": COMPANY_NAME,
-    }
+data_manager = DataManager()
+flight_search = FlightSearch()
+notification_manager = NotificationManager()
 
-    news_response = requests.get(NEWS_ENDPOINT, params=news_params)
-    articles = news_response.json()["articles"]
+sheet_data = data_manager.get_destination_data()
 
-    three_articles = articles[:3]
-    print(three_articles)
+if sheet_data[0]["iataCode"] == "":
+    city_names = [row["city"] for row in sheet_data]
+    data_manager.city_codes = flight_search.get_destination_codes(city_names)
+    data_manager.update_destination_codes()
+    sheet_data = data_manager.get_destination_data()
 
+destinations = {
+    data["iataCode"]: {
+        "id": data["id"],
+        "city": data["city"],
+        "price": data["lowestPrice"]
+    } for data in sheet_data}
 
-    formatted_articles = [f"{STOCK_NAME}: {up_down}{diff_percent}%\nHeadline: {article['title']}. \nBrief: {article['description']}" for article in three_articles]
-    print(formatted_articles)
+tomorrow = datetime.now() + timedelta(days=1)
+six_month_from_today = datetime.now() + timedelta(days=6 * 30)
 
-    client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
+for destination_code in destinations:
+    flight = flight_search.check_flights(
+        ORIGIN_CITY_IATA,
+        destination_code,
+        from_time=tomorrow,
+        to_time=six_month_from_today
+    )
+    print(flight.price)
+    if flight is None:
+        continue
 
+    if flight.price < destinations[destination_code]["price"]:
 
-    for article in formatted_articles:
-        message = client.messages.create(
-            body=article,
-            from_=VIRTUAL_TWILIO_NUMBER,
-            to=VERIFIED_NUMBER
-        )
+        users = data_manager.get_customer_emails()
+        emails = [row["email"] for row in users]
+        names = [row["firstName"] for row in users]
+
+        message = f"Low price alert! Only £{flight.price} to fly from {flight.origin_city}-{flight.origin_airport} to {flight.destination_city}-{flight.destination_airport}, from {flight.out_date} to {flight.return_date}."
+        if flight.stop_overs > 0:
+            message += f"\nFlight has {flight.stop_overs} stop over, via {flight.via_city}."
+
+        link = f"https://www.google.co.uk/flights?hl=en#flt={flight.origin_airport}.{flight.destination_airport}.{flight.out_date}*{flight.destination_airport}.{flight.origin_airport}.{flight.return_date}"
+        notification_manager.send_emails(emails, message, link)
