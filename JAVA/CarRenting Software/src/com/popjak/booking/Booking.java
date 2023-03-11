@@ -1,14 +1,20 @@
 package com.popjak.booking;
 
+import com.popjak.car.Car;
+import com.popjak.user.User;
+
 import java.time.LocalDateTime;
 import java.util.Random;
 
 public class Booking {
-
+    private final Car car;
+    private final User user;
     private final int bookingId;
     private final String date;
 
-    public Booking() {
+    public Booking(Car car, User user) {
+        this.car = car;
+        this.user = user;
         Random random = new Random();
         this.bookingId = random.nextInt(10000,99999);
         LocalDateTime local = LocalDateTime.now();
@@ -17,7 +23,27 @@ public class Booking {
 
     @Override
     public String toString() {
-        return "," + bookingId +
-                "," + date;
+        return "Booking{" +
+                "car=" + car +
+                ", user=" + user +
+                ", bookingId=" + bookingId +
+                ", date='" + date + '\'' +
+                '}';
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public int getBookingId() {
+        return bookingId;
+    }
+
+    public String getDate() {
+        return date;
     }
 }

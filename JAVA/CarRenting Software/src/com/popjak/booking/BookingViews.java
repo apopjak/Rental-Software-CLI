@@ -1,7 +1,10 @@
 package com.popjak.booking;
 
 
+import com.popjak.car.Car;
+import com.popjak.user.User;
 import com.popjak.user.UserServices;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,43 +13,41 @@ import java.util.concurrent.TimeUnit;
 
 public class BookingViews {
 
-    public static void viewUserBookings() throws ParseException {
+    public static void viewUserBookings(){
         Scanner scanner = new Scanner(System.in);
         UserServices.viewAllUsers();
         System.out.println("---------------------------------");
 
         System.out.println("Enter userID: ");
         String userInput = scanner.nextLine();
+        List<Booking> bookingList = BookingDAO.getAllBookings();
+        for (Booking booking : bookingList) {
+            Car car = booking.getCar();
+            User user = booking.getUser();
 
-        for (int i = 0; i < BookingDAO.getAllBookings().size(); i++) {
-            List<String> temporaryList = List.of(BookingDAO.getAllBookings().get(i).split(","));
-            String oldTime = temporaryList.get(9), newTime = temporaryList.get(10);
-            long remainingDays = remainingDays(oldTime,newTime);
-            if(userInput.equalsIgnoreCase(temporaryList.get(7))) {
-                String detailedView = temporaryList.get(7).substring(0,6) + "-******, " + temporaryList.get(6) + ", "
-                        + temporaryList.get(0) + ", " + temporaryList.get(1) + ", " + temporaryList.get(2) +
-                        " " + temporaryList.get(3) +"kw, " + temporaryList.get(4) + ", " + temporaryList.get(5) +
-                        " per day, booking date: " + temporaryList.get(9) + ", remaining days: " + remainingDays;
+            if (user.getUserid().equalsIgnoreCase(userInput)) {
+                String detailedView = "BookingID: " + booking.getBookingId() + ", " + user.getUserid().substring(0, 6)
+                        + "-******, " + user.getName() + ", Car: " + car.getCarName() + " " + car.getYear() + ", " +
+                        car.getPowerInKw() + "kw, " + car.getEngineType() + ",   " + car.getRentPerDay() + " per day. Car booked on: " +
+                        booking.getDate();
                 System.out.println(detailedView);
             }
         }
     }
 
-    public static void viewAllBookings() throws ParseException {
-
-        for (int i = 0; i < BookingDAO.getAllBookings().size(); i++) {
-
-            List<String> temporaryList = List.of(BookingDAO.getAllBookings().get(i).split(","));
-            String oldTime = temporaryList.get(9), newTime = temporaryList.get(10);
-            long remainingDays = remainingDays(oldTime,newTime);
-
-            // detailed string prints to user.
-            String detailedView = temporaryList.get(7).substring(0,6) + "-******, " + temporaryList.get(6) + ", "
-                    + temporaryList.get(0) + ", " + temporaryList.get(1) + ", " + temporaryList.get(2) +
-                    " " + temporaryList.get(3) +"kw, " + temporaryList.get(4) + ", " + temporaryList.get(5) +
-                    " per day, booking date: " + temporaryList.get(9) + ", remaining days: " + remainingDays;
+    public static void viewAllBookings() {
+        List<Booking> bookingList = BookingDAO.getAllBookings();
+        for (Booking booking : bookingList) {
+            Car car = booking.getCar();
+            User user = booking.getUser();
+             String detailedView = "BookingID: " + booking.getBookingId() + ", " + user.getUserid().substring(0, 6)
+                    + "-******, " + user.getName() + ", Car: " + car.getCarName() + " " + car.getYear() + ", " +
+                    car.getPowerInKw() + "kw, " + car.getEngineType() + ",   " + car.getRentPerDay() + " per day. Car booked on: " +
+                    booking.getDate();
             System.out.println(detailedView);
         }
+        //            String oldTime = bookingList.get(i).getDate(), newTime = temporaryList.get(10);
+//            long remainingDays = remainingDays(oldTime,newTime);
     }
 
     private static long remainingDays(String booking, String endDay) throws ParseException {
@@ -60,13 +61,12 @@ public class BookingViews {
         return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
     public static List<String> ifCarBooked(){
-        List<String> bookedSPZ = new ArrayList<>();
-        String a = null;
-        for (int i = 0; i < BookingDAO.getAllBookings().size(); i++) {
-            List<String> temporaryList = List.of(BookingDAO.getAllBookings().get(i).split(","));
-            a = temporaryList.get(0);
-            bookedSPZ.add(a);
+        List<Booking> bookingList = BookingDAO.getAllBookings();
+        List<String> spzList = new ArrayList<>();
+
+        for (int i = 0; i < bookingList.size(); i++) {
+            spzList.add(bookingList.get(i).getCar().getRegNum());
         }
-        return bookedSPZ;
+        return spzList;
     }
 }

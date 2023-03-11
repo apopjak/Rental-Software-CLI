@@ -1,6 +1,7 @@
 package com.popjak.car;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,16 +16,21 @@ public class CarDAO {
         }
         return file;
     }
-    public static List<String> getAllCars(){
-        // Method returns list of cars in availableCars.csv.
+    public static List<Car> getAllCars(){
+        // Method returns list of cars in availableCars.csv
+        // instantiation of Car Class
 
-        List<String> allCars = new ArrayList<>();
+        List<Car> allCars = new ArrayList<>();
+
         try {
             Scanner scanner = new Scanner(accessToFile());
             while (scanner.hasNext()) {
                 String a = scanner.nextLine();
-                allCars.add(a);
+                List<String> temporaryList = new ArrayList<>(new ArrayList<>(List.of(a.split(","))));
 
+                Car car = new Car(temporaryList.get(0),temporaryList.get(1),temporaryList.get(2),
+                        temporaryList.get(3),temporaryList.get(4),temporaryList.get(5));
+                allCars.add(car);
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());

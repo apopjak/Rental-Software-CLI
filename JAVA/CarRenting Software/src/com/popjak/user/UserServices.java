@@ -5,21 +5,24 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class UserServices {
     public static void registerUser(){
-        // User Registration Method. Adds user to userDatabase.csv
+        // User Registration Method Adds user to userDatabase.csv
 
         try(
                 // closable flushable
                 FileWriter fileWriter = new FileWriter(UserDAO.accessToFile(),true);
                 PrintWriter writer = new PrintWriter(fileWriter);
         ){
-            // if car is not in database then add it
+
+            // Registration of new user
             Scanner scanner = new Scanner(System.in);
             System.out.print("Name of the user: ");
             String input = scanner.next().trim();
-            User user = new User(input);
+            String uuid = String.valueOf(UUID.randomUUID());
+            User user = new User(uuid,input);
             writer.print(user);
             System.out.println("User Created ✅!");
 
@@ -32,40 +35,37 @@ public class UserServices {
         // Method shows all registered users located in users.csv
 
         // if uuid is Empty (***Empty*** comes from overloaded method bellow)
+        List<User> userList = UserDAO.getAllUsers();
         if (uuid.equals("Empty")) {
-            for (int i = 0; i < UserDAO.getAllUsers().size(); i++) {
-                List<String> temporaryList = List.of(UserDAO.getAllUsers().get(i).split(","));
-                String detailedView = "Name: " + temporaryList.get(1) + ", userID: " + temporaryList.get(0);
+            for (User user : userList) {
+                String detailedView = "Name: " + user.getName() + ", userID: " + user.getUserid();
                 System.out.println(detailedView);
             }
-            return "";
         }
         for (int i = 0; i < UserDAO.getAllUsers().size(); i++) {
-            List<String> temporaryList = List.of(UserDAO.getAllUsers().get(i).split(","));
-            String detailedView = "Name: " + temporaryList.get(1) + ", userID: " + temporaryList.get(0);
-            if (temporaryList.get(0).equals(uuid)) {
-                System.out.println(detailedView);
-                return detailedView;
+            if (userList.get(i).getUserid().equalsIgnoreCase(uuid)) {
+                return userList.get(i).userString();
             }
         }
-        System.out.println("User not found try again ❌");
-        return "User not found try again ❌";
+        return "User not found";
     }
 
-    public static void viewAllUsers(){
+    public static String viewAllUsers(){
         // Overloaded empty method, which always return whole list.
         viewAllUsers("Empty");
+        return null;
     }
 
 
     public static String getUserStringForDB(String uuid){
         // Methods returns string ready for exporting to bookingBD
 
-        for (int i = 0; i < UserDAO.getAllUsers().size(); i++) {
+        List<User> userList = UserDAO.getAllUsers();
+        for (int i = 0; i < userList.size(); i++) {
 
-            List<String> temporaryList = List.of(UserDAO.getAllUsers().get(i).split(","));
-            String detailedView = temporaryList.get(1) + "," + temporaryList.get(0);
-            if (temporaryList.get(0).equals(uuid)) {
+
+            String detailedView = userList.get(i).getUserid() + "," + userList.get(i).getName();
+            if (userList.get(i).getUserid().equalsIgnoreCase(uuid)) {
                 System.out.println(detailedView);
                 return detailedView;
             }

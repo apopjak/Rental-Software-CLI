@@ -15,21 +15,21 @@ public class UserDAO {
         }
         return file;
     }
-    public static List<String> getAllUsers(){
-        // Method returns list of users in users.csv.
+    public static List<User> getAllUsers(){
+        // Method returns list of users in users.csv
 
-        List<String> allUsers = new ArrayList<>();
+        List<User> allUsers = new ArrayList<>();
         try {
             Scanner scanner = new Scanner(accessToFile());
             while (scanner.hasNext()) {
                 String a = scanner.nextLine();
-                allUsers.add(a);
-
+                List<String> temporaryList = new ArrayList<>(new ArrayList<>(List.of(a.split(","))));
+                User user = new User(temporaryList.get(0), temporaryList.get(1));
+                allUsers.add(user);
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
         return allUsers;
     }
 }

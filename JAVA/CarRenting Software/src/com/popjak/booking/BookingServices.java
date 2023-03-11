@@ -3,21 +3,18 @@ package com.popjak.booking;
 import com.popjak.car.CarServices;
 import com.popjak.user.UserServices;
 
-import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class BookingServices {
+    public static void newBookingRequest(){
+        // Method creates new booking requests and exporting them into booking.csv
 
-
-    public static void newBookingRequest() {
-        Scanner s = new Scanner(System.in);
-
+        Scanner scanner = new Scanner(System.in);
 
         // Method is going to print all cars and asks user to enter desired car registration number.
         CarServices.showAvailableCars("ALL");
-        System.out.println("---------------------------------------------");
-        System.out.print("Enter Registration number of the car you want to book: ");
-        String carSelection = s.nextLine().toUpperCase().trim(); // ask user to enter car number
+        System.out.print("---------------------------------------------\nEnter Registration number of the car you want to book: ");
+        String carSelection = scanner.nextLine().toUpperCase().trim();
         String getCarString = CarServices.getCarInfo(carSelection);
         if (getCarString.startsWith("This")) {
             System.out.println("Car booked already or not in database. try again  ❌");
@@ -28,36 +25,47 @@ public class BookingServices {
         UserServices.viewAllUsers();
         System.out.println("---------------------------------------------");
         System.out.print("Select userID (uuid long code): ");
-        String userSelection = s.nextLine().toLowerCase().trim();
-        String viewUser = UserServices.viewAllUsers(userSelection);
-        if (getCarString.startsWith("User")) {
-            System.out.println("Incorrect userID  ❌");
-        } else {
-            System.out.print("\nEnter number of days u want to register for: ");
-            BigDecimal numOfDays = new BigDecimal(s.nextLine().trim());
-            BigDecimal getCarPrice = CarServices.getPrice(carSelection);
-            BigDecimal finalPrice = numOfDays.multiply(getCarPrice);
+        String userSelection = scanner.nextLine().toLowerCase().trim();
+        String userString = UserServices.viewAllUsers(userSelection);
+        if (userString.startsWith("User")) {
+            System.out.println("Incorrect user selected ❌");
+            return;
+        }
 
+        // NUMBER OF DAYS
+        System.out.print("\nEnter number of days u want to register for: ");
+        try {
+            int numOfDays = scanner.nextInt();
+            if (numOfDays <= 0){
+                System.out.println("You have entered negative number ❌");
+                return;
+            }
+            int getCarPrice = CarServices.getPrice(carSelection);
+            int finalPrice = numOfDays * getCarPrice;
+
+
+            // TOTAL BILL PRINTER HERE
             String selection = """
-                        Your selection:
-                        ----------------""";
+                Your selection:
+                ----------------""";
             System.out.println(selection);
             System.out.println(numOfDays + " day(s)\n" + getCarPrice + "€ per day" +
                     "\nTotal bill: " + finalPrice +
                     "€\nConfirm the selection by typing 'yes': ");
 
-            String confirmation = s.nextLine().toUpperCase().trim();
+            Scanner s = new Scanner(System.in);
+            String confirmation = s.nextLine();
 
-            // Method asks user if he agrees to final bill, if YES it print the message
-            // and adds the car into bookings.csv file as a reference
-            if (confirmation.charAt(0) == 'Y'){
-                BookingDAO.exportToCSV(carSelection,userSelection,Integer.parseInt(String.valueOf(numOfDays)));
+            // IF USER AGREES STRING PRINTED TO booking.CSV
+            if (confirmation.equalsIgnoreCase("yes")){
+                BookingDAO.exportToCSV(getCarString,userString, numOfDays);
                 System.out.println("Car booked successfully! ✅");
             } else {
                 System.out.println("Booking canceled ❌");
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Incorrect input ❌");
         }
     }
-
 
 }
