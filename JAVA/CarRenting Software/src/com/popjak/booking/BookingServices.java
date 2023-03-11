@@ -1,72 +1,63 @@
 package com.popjak.booking;
 
-import com.popjak.car.CarService;
+import com.popjak.car.CarServices;
 import com.popjak.user.UserServices;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class BookingServices {
 
-    public static void newBookingRequest(){
 
-        // Method takes care of new booking
-        List<String> bookedCars = BookingDAO.showBookedCars();
+    public static void newBookingRequest() {
         Scanner s = new Scanner(System.in);
 
-        // Method is going to print all cars and ask user to enter desired car SPZ.
-        CarService.showAvailableCars("ALL");
-        System.out.print("\nEnter SPZ of car u want to book: ");
-        String SPZ = s.nextLine().toUpperCase().trim();
-        String getCarString = CarService.getCarString(SPZ);
 
-        // Method asks user to enter which user ID they want to register with
-        System.out.print("\nSelect userID (uuid long code): ");
-        UserServices.viewAllUsers();
-        String userID = s.nextLine().toLowerCase().trim();
-        String finalString = BookingDAO.getFinalStringForExportingToFile(userID,SPZ);
-
-        // if user enters incorrect info it prints this and breaks the method.
-        if (finalString.contains("NULL")||(bookedCars.contains(SPZ))){
-            System.out.println("Car already booked or incorrect userID/SPZ try again please. ❌");
+        // Method is going to print all cars and asks user to enter desired car registration number.
+        CarServices.showAvailableCars("ALL");
+        System.out.println("---------------------------------------------");
+        System.out.print("Enter Registration number of the car you want to book: ");
+        String carSelection = s.nextLine().toUpperCase().trim(); // ask user to enter car number
+        String getCarString = CarServices.getCarInfo(carSelection);
+        if (getCarString.startsWith("This")) {
+            System.out.println("Car booked already or not in database. try again  ❌");
             return;
         }
 
-        // IF user enters wrong SPZ
-        if (getCarString.equals("NULL")) {
-            System.out.println("Car not found ❌");
+        // Method asks user to enter which user ID they want to register with
+        UserServices.viewAllUsers();
+        System.out.println("---------------------------------------------");
+        System.out.print("Select userID (uuid long code): ");
+        String userSelection = s.nextLine().toLowerCase().trim();
+        String viewUser = UserServices.viewAllUsers(userSelection);
+        if (getCarString.startsWith("User")) {
+            System.out.println("Incorrect userID  ❌");
         } else {
-            try{
-                // Methos asks user how many days wants to book the car for, and it calculates
-                // and print the final bill
-                System.out.print("\nEnter number of days u want to register " + SPZ.toUpperCase() + " for: ");
-                BigDecimal numOfDays = new BigDecimal(s.nextLine().trim());
-                BigDecimal getCarPrice = CarService.getPrice(SPZ);
-                BigDecimal finalPrice = numOfDays.multiply(getCarPrice);
-                String selection = """
+            System.out.print("\nEnter number of days u want to register for: ");
+            BigDecimal numOfDays = new BigDecimal(s.nextLine().trim());
+            BigDecimal getCarPrice = CarServices.getPrice(carSelection);
+            BigDecimal finalPrice = numOfDays.multiply(getCarPrice);
+
+            String selection = """
                         Your selection:
                         ----------------""";
-                System.out.println(selection);
-                System.out.println(numOfDays + " day(s)\n" + getCarPrice + "€ per day" +
-                        "\nTotal bill: " + finalPrice +
-                        "€\nConfirm the selection by typing 'yes': ");
+            System.out.println(selection);
+            System.out.println(numOfDays + " day(s)\n" + getCarPrice + "€ per day" +
+                    "\nTotal bill: " + finalPrice +
+                    "€\nConfirm the selection by typing 'yes': ");
 
-                String confirmation = s.nextLine().toUpperCase().trim();
+            String confirmation = s.nextLine().toUpperCase().trim();
 
-                // Method asks user if he agrees to final bill, if YES it print the message
-                // and adds the car into booking.csv file as a reference.
-                if (confirmation.charAt(0) == 'Y'){
-                    BookingDAO.exportToDatabase(finalString);
-                    System.out.println("Car booked successfully! ✅");
-                } else {
-                    System.out.println("Booking canceled ❌");
-                }
-            } catch (NumberFormatException e){
-                System.out.println("Invalid input or car doesn't exist in our database try again. ❌");
+            // Method asks user if he agrees to final bill, if YES it print the message
+            // and adds the car into bookings.csv file as a reference
+            if (confirmation.charAt(0) == 'Y'){
+                BookingDAO.exportToCSV(carSelection,userSelection,Integer.parseInt(String.valueOf(numOfDays)));
+                System.out.println("Car booked successfully! ✅");
+            } else {
+                System.out.println("Booking canceled ❌");
             }
         }
     }
+
 
 }

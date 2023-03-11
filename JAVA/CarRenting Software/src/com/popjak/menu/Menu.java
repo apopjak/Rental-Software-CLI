@@ -1,14 +1,18 @@
 package com.popjak.menu;
-import com.popjak.booking.BookingDAO;
+import com.popjak.booking.BookingViews;
+import com.popjak.car.CarServices;
 import com.popjak.booking.BookingServices;
-import com.popjak.car.CarService;
 import com.popjak.user.UserServices;
 
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class Menu {
 
-    public static void mainMenu() {
+    public Menu() {
+    }
+
+    public static void mainMenu() throws ParseException {
         // MAIN MENU Method
 
         String input;
@@ -17,10 +21,11 @@ public class Menu {
                 1️⃣ - Book Car
                 2️⃣ - View All User Booked Cars
                 3️⃣ - View All Bookings
-                4️⃣ - View Available Regular Cars
+                4️⃣ - View Available Petrol Cars
                 5️⃣ - View Available Electric Cars
-                6️⃣ - View All users                
-                7️⃣ - Register new user
+                6️⃣ - View Available Hybrid Cars
+                7️⃣ - View All users                
+                8️⃣ - Register new user
                 
                 0️⃣ - Exit
                 """;
@@ -32,12 +37,14 @@ public class Menu {
             if (input.equals("0")) break;
             switch (input) {
                 case "1" -> BookingServices.newBookingRequest();
-                case "2" -> BookingDAO.viewUserBookedCars();
-                case "3" -> BookingDAO.viewAllBookings();
-                case "4" -> CarService.showAvailableCars("PETROL");
-                case "5" -> CarService.showAvailableCars("ELECTRIC");
-                case "6" -> UserServices.viewAllUsers();
-                case "7" -> UserServices.registerUser();
+                case "2" -> BookingViews.viewUserBookings();
+                case "3" -> BookingViews.viewAllBookings();
+                case "4" -> CarServices.showAvailableCars("PETROL");
+                case "5" -> CarServices.showAvailableCars("ELECTRIC");
+                case "6" -> CarServices.showAvailableCars("HYBRID");
+                case "7" -> UserServices.viewAllUsers();
+                case "8" -> UserServices.registerUser();
+//                case "9" ->
                 default -> System.out.println(input + " is not a valid option ❌");
             }
         }

@@ -1,101 +1,76 @@
 package com.popjak.user;
 
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class UserServices {
-
-
     public static void registerUser(){
         // User Registration Method. Adds user to userDatabase.csv
 
         try(
                 // closable flushable
-                FileWriter fileWriter = new FileWriter(UserDAO.getAccessToFile(),true);
-                PrintWriter writter = new PrintWriter(fileWriter);
+                FileWriter fileWriter = new FileWriter(UserDAO.accessToFile(),true);
+                PrintWriter writer = new PrintWriter(fileWriter);
         ){
             // if car is not in database then add it
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Vlozte meno (vsetko spolu): ");
+            System.out.print("Name of the user: ");
             String input = scanner.next().trim();
             User user = new User(input);
-            writter.print(user);
-            System.out.println("Uzivatel vytvoreny!");
+            writer.print(user);
+            System.out.println("User Created ✅!");
 
         } catch (IOException e) {
             System.out.println(e.getMessage() + "Car Services");
         }
     }
 
+    public static String viewAllUsers(String uuid) {
+        // Method shows all registered users located in users.csv
 
-
-
-    public static void viewAllUsers(){
-        // Method filter all users in database and print them to user!
-
-        System.out.println("Zoznam uzivatelov: \n-----------------------\n");
-        try{
-            Scanner s = new Scanner(UserDAO.getAccessToFile());
-            while (s.hasNext()) {
-
-                // converting CSV to list and analyzing if car exists in the list.
-                List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
-                String detailedView = "ID: " + list.get(0) + " Meno: " + list.get(1);
+        // if uuid is Empty (***Empty*** comes from overloaded method bellow)
+        if (uuid.equals("Empty")) {
+            for (int i = 0; i < UserDAO.getAllUsers().size(); i++) {
+                List<String> temporaryList = List.of(UserDAO.getAllUsers().get(i).split(","));
+                String detailedView = "Name: " + temporaryList.get(1) + ", userID: " + temporaryList.get(0);
                 System.out.println(detailedView);
             }
-        } catch (IOException e ){
-            System.out.println(e.getMessage());
+            return "";
         }
+        for (int i = 0; i < UserDAO.getAllUsers().size(); i++) {
+            List<String> temporaryList = List.of(UserDAO.getAllUsers().get(i).split(","));
+            String detailedView = "Name: " + temporaryList.get(1) + ", userID: " + temporaryList.get(0);
+            if (temporaryList.get(0).equals(uuid)) {
+                System.out.println(detailedView);
+                return detailedView;
+            }
+        }
+        System.out.println("User not found try again ❌");
+        return "User not found try again ❌";
+    }
+
+    public static void viewAllUsers(){
+        // Overloaded empty method, which always return whole list.
+        viewAllUsers("Empty");
     }
 
 
+    public static String getUserStringForDB(String uuid){
+        // Methods returns string ready for exporting to bookingBD
 
-    private static boolean userExists(String uuid){
-        // Returns true if user exists
+        for (int i = 0; i < UserDAO.getAllUsers().size(); i++) {
 
-        try{
-            Scanner s = new Scanner(UserDAO.getAccessToFile());
-            while (s.hasNext()) {
-
-                // converting CSV to list and analyzing if car exists in the list.
-                List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
-                if (uuid.equals(list.get(0))) {
-                    return true;
-                }
+            List<String> temporaryList = List.of(UserDAO.getAllUsers().get(i).split(","));
+            String detailedView = temporaryList.get(1) + "," + temporaryList.get(0);
+            if (temporaryList.get(0).equals(uuid)) {
+                System.out.println(detailedView);
+                return detailedView;
             }
-        } catch (IOException e ){
-            System.out.println(e.getMessage());
         }
-        return false;
-    }
-
-
-
-    public static String getUserString(String uuid) {
-        // Method return string of the user for booking database
-
-        if (userExists(uuid)) {
-            try{
-                Scanner s = new Scanner(UserDAO.getAccessToFile());
-                while (s.hasNext()) {
-
-                    // converting CSV to list and analyzing if car exists in the list.
-                    List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
-                    if (uuid.equals(list.get(0))) {
-                        return list.get(0) + "," + list.get(1);
-                    }
-                }
-            } catch (IOException e ){
-                System.out.println(e.getMessage());
-            }
-
-        }
-        return "NULL";
+        return "";
     }
 
 }

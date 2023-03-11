@@ -1,14 +1,14 @@
 package com.popjak;
 
-
-import com.popjak.booking.BookingDAO;
 import com.popjak.menu.Menu;
 
+import java.text.ParseException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Menu.mainMenu();
 
 
     }
+
 }

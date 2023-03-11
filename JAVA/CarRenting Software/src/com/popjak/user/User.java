@@ -16,5 +16,4 @@ public class User {
     public String toString() {
         return userid + "," + name + "\n";
     }
-
 }

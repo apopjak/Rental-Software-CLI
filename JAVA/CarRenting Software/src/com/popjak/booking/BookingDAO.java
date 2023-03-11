@@ -1,5 +1,6 @@
 package com.popjak.booking;
-import com.popjak.car.CarService;
+
+import com.popjak.car.CarServices;
 import com.popjak.user.UserServices;
 
 import java.io.File;
@@ -7,133 +8,48 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class BookingDAO {
-    // Method gives access to file
-     private static File getAccessToFile() throws IOException {
-
-        File file = new File("src/com/popjak/dataStrorage/booking.csv");
+    public static File accessToFile() throws IOException {
+        File file = new File("src/com/popjak/data/bookings.csv");
         if (!file.exists()) {
             file.createNewFile();
             return file;
         }
         return file;
     }
+    public static void exportToCSV(String carSelection, String userSelection, int days){
+        Booking booking = new Booking();
+        LocalDate local = LocalDate.now().plusDays(days);
+        String date = local.getDayOfMonth() + "." + local.getMonthValue() + "." + local.getYear();
 
-
-    public static void viewUserBookedCars(){
-        //  Method asks user what ID you want to check,
-        //  and then it prints results how many cars use has booked.
-
-        Scanner scanner = new Scanner(System.in);
-        UserServices.viewAllUsers();
-        System.out.println("Select userID: \n");
-        String uuid = scanner.nextLine().toLowerCase().trim();
-        try{
-            Scanner reader = new Scanner(BookingDAO.getAccessToFile());
-            while (reader.hasNext()) {
-                // converting CSV to list and analyzing if car exists in the list.
-                List<String> list = new ArrayList<>(List.of(reader.nextLine().split(",")));
-                if (list.get(6).equals(uuid)){
-                    String detailedView = "User: " + list.get(7) + " userID: " + list.get(6).substring(0,5)
-                            + "-****-**** " + list.get(0) + ", " + list.get(1) + " " + list.get(2) +
-                            ", " +list.get(3) + ", " + list.get(4) + ", " + list.get(5) + "€ per day";
-                    System.out.println(detailedView);
-                }
-
-            }
-        } catch (IOException e ){
-            System.out.println("error");
-        }
-    }
-
-
-
-    public static List<String> showBookedCars(){
-        //Method returns list of booked SPZs
-        // This Method help to other methods determine if car is booked or not.
-
-        try {
-            Scanner s = new Scanner(BookingDAO.getAccessToFile());
-            List<String> bookedSPZ = new ArrayList<>();
-            ArrayList<String> a = null;
-            while (s.hasNext()) {
-                // converting CSV to list and analyzing if car exists in the list.
-                a = new ArrayList<>(List.of(s.nextLine().substring(0,7)));
-                for (int i = 0; i < a.size(); i++) {
-                    bookedSPZ.add(a.get(i));
-                }
-            }
-            return bookedSPZ;
-        } catch (IOException e ){
-            System.out.println("error");
-        }
-        return null;
-    }
-
-
-
-    public static void viewAllBookings() {
-        // Method shows current bookings
-
-        System.out.println("The list of current bookings: \n-----------------------\n");
-        try{
-            Scanner s = new Scanner(BookingDAO.getAccessToFile());
-            while (s.hasNext()) {
-                // converting CSV to list and analyzing if car exists in the list.
-                List<String> list = new ArrayList<>(List.of(s.nextLine().split(",")));
-                if (list.get(0).contains("spz")) {
-                    continue;
-                }
-                // TODO CALCULATE HOW MANY DAYS CX HAS
-                String detailedView = "User: " + list.get(7) + " userID: " + list.get(6).substring(0,5)
-                        + "-******* " + list.get(0) + ", " + list.get(1) + " " + list.get(2) +
-                        ", " +list.get(3) + ", " + list.get(4) + ", " + list.get(5) + "€ per day, Car ordered at " + list.get(9) + "XX days left";
-                System.out.println(detailedView);
-            }
-        } catch (IOException e ){
-            System.out.println("error");
-        }
-    }
-
-
-
-    static void exportToDatabase(String finalString){
-        // Method takes final string and exports it to CSV file.
-
-        if (finalString.contains("not found")) System.out.println("Error, incorrect user or car SPZ");
         try (
-                FileWriter fileWriter = new FileWriter(BookingDAO.getAccessToFile(),true);
+                FileWriter fileWriter = new FileWriter(BookingDAO.accessToFile(), true);
                 PrintWriter writer = new PrintWriter(fileWriter);
-        ){
-            writer.print(finalString);
-        }catch (IOException e ) {
+        ) {
+            writer.print(CarServices.getCarStringForCSV(carSelection) + UserServices.getUserStringForDB(userSelection)
+                    + booking + "," + date + "\n");
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
+    public static List<String> getAllBookings(){
+        // Method returns list of cars in availableCars.csv.
 
+        List<String> allBookings = new ArrayList<>();
+        try {
+            Scanner scanner = new Scanner(accessToFile());
+            while (scanner.hasNext()) {
+                String a = scanner.nextLine();
+                allBookings.add(a);
 
-
-    public static String getFinalStringForExportingToFile(String uuid, String spz){
-        // Helper method creates final string which is exported to database.
-
-        Booking booking = new Booking();
-        return CarService.getCarString(spz.toUpperCase().trim()) + "," + UserServices.getUserString(uuid.toLowerCase().trim())
-                + "," + booking +"\n";
-    }
-
-
-
-    public static void date(int numberOfDays){
-        LocalDate localDate = LocalDate.now();
-        // TODO create method which is going to be responsible to
-        //  showing date of booking  creation and also how many days customer have left.
-
-         System.out.println(localDate);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return allBookings;
     }
 }
