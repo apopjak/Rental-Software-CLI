@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class UserDAO {
     public static File accessToFile() throws IOException {
-        File file = new File("src/com/popjak/data/users.csv");
+        File file = new File("src/main/resources/users.csv");
         if (!file.exists()) {
             file.createNewFile();
             return file;

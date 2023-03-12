@@ -26,10 +26,12 @@ What was used in this project so far:
     - Try with resources
     - Interfaces
     - Dependency Injection
+    12/03/2023 update
+  - added Streams
+  - migdraded to Maven and added faker dependency
 
 What is in going to be implemented    
-    - Maven
-    - Streams    
+
     - Generics
     - Testing in JUnit
 

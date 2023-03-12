@@ -3,6 +3,7 @@ package com.popjak.booking;
 import com.popjak.car.CarServices;
 import com.popjak.user.UserServices;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class BookingServices {
@@ -12,15 +13,17 @@ public class BookingServices {
         Scanner scanner = new Scanner(System.in);
 
         // Method is going to print all cars and asks user to enter desired car registration number.
-        CarServices.showAvailableCars("ALL");
+        CarServices.showAvailableCars("PETROL");
+        CarServices.showAvailableCars("ELECTRIC");
+        CarServices.showAvailableCars("HYBRID");
+
         System.out.print("---------------------------------------------\nEnter Registration number of the car you want to book: ");
         String carSelection = scanner.nextLine().toUpperCase().trim();
         String getCarString = CarServices.getCarInfo(carSelection);
-        if (getCarString.startsWith("This")) {
+        if (getCarString.startsWith("notFound")) {
             System.out.println("Car booked already or not in database. try again  ❌");
             return;
         }
-
         // Method asks user to enter which user ID they want to register with
         UserServices.viewAllUsers();
         System.out.println("---------------------------------------------");
@@ -40,8 +43,13 @@ public class BookingServices {
                 System.out.println("You have entered negative number ❌");
                 return;
             }
-            int getCarPrice = CarServices.getPrice(carSelection);
-            int finalPrice = numOfDays * getCarPrice;
+
+
+            List<String> a = List.of(CarServices.getCarInfo(carSelection)
+                    .substring(1,CarServices.getCarInfo(carSelection).length() - 1).split(","));
+            int carPrice = Integer.parseInt(a.get(5));
+
+            int finalPrice = numOfDays * carPrice;
 
 
             // TOTAL BILL PRINTER HERE
@@ -49,7 +57,7 @@ public class BookingServices {
                 Your selection:
                 ----------------""";
             System.out.println(selection);
-            System.out.println(numOfDays + " day(s)\n" + getCarPrice + "€ per day" +
+            System.out.println(numOfDays + " day(s)\n" + carPrice + "€ per day" +
                     "\nTotal bill: " + finalPrice +
                     "€\nConfirm the selection by typing 'yes': ");
 

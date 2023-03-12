@@ -28,6 +28,14 @@ public class Car {
                 "," + engineType +
                 "," + rentPerDay;
     }
+    public String toDetailedString() {
+        return regNum +
+                ", " + carName +
+                ", " + year +
+                ", " + powerInKw + "kw, " +
+                engineType +
+                ", " + rentPerDay + "€ per day";
+    }
 
     @Override
     public boolean equals(Object o) {

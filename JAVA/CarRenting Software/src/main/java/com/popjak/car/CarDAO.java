@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class CarDAO {
 
     private static File accessToFile() throws IOException {
-        File file = new File("src/com/popjak/data/availableCars.csv");
+        File file = new File("src/main/resources/availableCars.csv");
         if (!file.exists()) {
             file.createNewFile();
             return file;

@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class BookingDAO {
     public static File accessToFile() throws IOException {
         // Method access the file!
 
-        File file = new File("src/com/popjak/data/bookings.csv");
+        File file = new File("src/main/resources/bookings.csv");
         if (!file.exists()) {
             file.createNewFile();
             return file;

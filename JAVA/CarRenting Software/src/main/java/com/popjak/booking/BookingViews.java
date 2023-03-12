@@ -46,8 +46,6 @@ public class BookingViews {
                     booking.getDate();
             System.out.println(detailedView);
         }
-        //            String oldTime = bookingList.get(i).getDate(), newTime = temporaryList.get(10);
-//            long remainingDays = remainingDays(oldTime,newTime);
     }
 
     private static long remainingDays(String booking, String endDay) throws ParseException {
@@ -60,7 +58,7 @@ public class BookingViews {
 
         return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
-    public static List<String> ifCarBooked(){
+    public static List<String> isCarBooked(){
         List<Booking> bookingList = BookingDAO.getAllBookings();
         List<String> spzList = new ArrayList<>();
 
