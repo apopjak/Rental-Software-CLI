@@ -1,18 +1,23 @@
 package com.popjak.car;
 
 
-import com.popjak.booking.BookingViews;
+import com.popjak.booking.Booking;
+import com.popjak.booking.BookingDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarServices {
+    static CarDAO carDAO = new CarDAO();
+    static BookingDAO bookingDAO = new BookingDAO();
+
 
     public static void showAvailableCars(String engineType){
         // Method shows available cars. Car cannot be in booking.csv
 
-        List<Car> carList = CarDAO.getAllCars()
+        List<Car> carList = carDAO.getList()
                 .stream()
-                .filter(car -> car.getEngineType().equals(engineType) && (!BookingViews.isCarBooked().contains(car.getRegNum())))
+                .filter(car -> car.getEngineType().equals(engineType) && (!isCarBooked().contains(car.getRegNum())))
                 .toList();
         for (Car car : carList) {
             System.out.println(car.toDetailedString());
@@ -22,11 +27,22 @@ public class CarServices {
         // Method looks into CSV file and return the string of the specific car.
 
 
-        List<Car> regNmOutput  = CarDAO.getAllCars()
+        List<Car> regNmOutput  = carDAO.getList()
                 .stream()
-                .filter(car -> car.getRegNum().equalsIgnoreCase(regNm) && (!BookingViews.isCarBooked().contains(car.getRegNum())))
+                .filter(car -> car.getRegNum().equalsIgnoreCase(regNm) && (!isCarBooked().contains(car.getRegNum())))
                 .toList();
 
         return regNmOutput.toString().substring(1,regNmOutput.toString().length() - 1);
+    }
+    private static List<String> isCarBooked(){
+        // Boolen to see if car is booked, That pethod helps to Car Service class to show only available cars.
+
+        List<Booking> bookingList = bookingDAO.getList();
+        List<String> spzList = new ArrayList<>();
+
+        for (int i = 0; i < bookingList.size(); i++) {
+            spzList.add(bookingList.get(i).getCar().getRegNum());
+        }
+        return spzList;
     }
 }

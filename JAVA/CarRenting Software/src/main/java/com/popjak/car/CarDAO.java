@@ -8,22 +8,20 @@ import java.util.Scanner;
 
 public class CarDAO {
 
-    private static File accessToFile() throws IOException {
-        File file = new File("src/main/resources/availableCars.csv");
+    static String PATH = "src/main/resources/availableCars.csv";
+
+    static File accessToCSV() throws IOException {
+        File file = new File(PATH);
         if (!file.exists()) {
             file.createNewFile();
             return file;
         }
         return file;
     }
-    public static List<Car> getAllCars(){
-        // Method returns list of cars in availableCars.csv
-        // instantiation of Car Class
-
+    List<Car> getList() {
         List<Car> allCars = new ArrayList<>();
-
         try {
-            Scanner scanner = new Scanner(accessToFile());
+            Scanner scanner = new Scanner(accessToCSV());
             while (scanner.hasNext()) {
                 String a = scanner.nextLine();
                 List<String> temporaryList = new ArrayList<>(new ArrayList<>(List.of(a.split(","))));

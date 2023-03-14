@@ -2,41 +2,28 @@ package com.popjak.user;
 
 import com.github.javafaker.Faker;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
-public class UserServices {
-    public static void registerUser(){
-        // User Registration Method Adds user to userDatabase.csv
+public class UserServices{
 
-        try(
-                // closable flushable
-                FileWriter fileWriter = new FileWriter(UserDAO.accessToFile(),true);
-                PrintWriter writer = new PrintWriter(fileWriter);
-        ){
-            // Registration of new user
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Name of the user: ");
-            String input = scanner.next().trim();
-            Faker faker = new Faker();
-            User user = new User(faker.idNumber().ssnValid(),input);
-            writer.print(user);
-            System.out.println("User Created ✅!");
+    static UserDAO userDAO = new UserDAO();
+    static Scanner scanner = new Scanner(System.in);
+    public static void registerUser() {
+        // Registration of new user
 
-        } catch (IOException e) {
-            System.out.println(e.getMessage() + "Car Services");
-        }
+        System.out.print("Name of the user: ");
+        String input = scanner.next().trim();
+        Faker faker = new Faker();
+        User user = new User(faker.idNumber().ssnValid(),input);
+        userDAO.addToCSV(user);
     }
+
 
     public static String viewAllUsers(String uuid) {
 
         // if uuid is Empty (***Empty*** comes from overloaded method bellow)
-        List<User> userList = UserDAO.getAllUsers();
-        for (User user : userList) {
+
+        for (User user : userDAO.getList()) {
             if (user.getUserid().equalsIgnoreCase(uuid)) {
                 return user.userString();
             } else if (uuid.equals("Empty")) {

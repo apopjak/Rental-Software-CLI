@@ -1,50 +1,44 @@
 package com.popjak.booking;
 
 
-import com.popjak.car.Car;
 import com.popjak.user.User;
 import com.popjak.user.UserServices;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class BookingViews {
+    static BookingDAO bookingDAO = new BookingDAO();
 
     public static void viewUserBookings(){
+        // program prints the users, Then u have to select specific user and ull see what he booked.
+
         Scanner scanner = new Scanner(System.in);
         UserServices.viewAllUsers();
         System.out.println("---------------------------------");
 
         System.out.println("Enter userID: ");
         String userInput = scanner.nextLine();
-        List<Booking> bookingList = BookingDAO.getAllBookings();
+        List<Booking> bookingList = bookingDAO.getList();
         for (Booking booking : bookingList) {
-            Car car = booking.getCar();
             User user = booking.getUser();
 
             if (user.getUserid().equalsIgnoreCase(userInput)) {
-                String detailedView = "BookingID: " + booking.getBookingId() + ", " + user.getUserid().substring(0, 6)
-                        + "-******, " + user.getName() + ", Car: " + car.getCarName() + " " + car.getYear() + ", " +
-                        car.getPowerInKw() + "kw, " + car.getEngineType() + ",   " + car.getRentPerDay() + " per day. Car booked on: " +
-                        booking.getDate();
-                System.out.println(detailedView);
+                System.out.println(booking.detailedString());
             }
         }
     }
-
     public static void viewAllBookings() {
-        List<Booking> bookingList = BookingDAO.getAllBookings();
+        // program prints all bookings
+
+        List<Booking> bookingList = bookingDAO.getList();
         for (Booking booking : bookingList) {
-            Car car = booking.getCar();
-            User user = booking.getUser();
-             String detailedView = "BookingID: " + booking.getBookingId() + ", " + user.getUserid().substring(0, 6)
-                    + "-******, " + user.getName() + ", Car: " + car.getCarName() + " " + car.getYear() + ", " +
-                    car.getPowerInKw() + "kw, " + car.getEngineType() + ",   " + car.getRentPerDay() + " per day. Car booked on: " +
-                    booking.getDate();
-            System.out.println(detailedView);
+            System.out.println(booking.detailedString());
         }
     }
 
@@ -58,13 +52,5 @@ public class BookingViews {
 
         return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
-    public static List<String> isCarBooked(){
-        List<Booking> bookingList = BookingDAO.getAllBookings();
-        List<String> spzList = new ArrayList<>();
 
-        for (int i = 0; i < bookingList.size(); i++) {
-            spzList.add(bookingList.get(i).getCar().getRegNum());
-        }
-        return spzList;
-    }
 }

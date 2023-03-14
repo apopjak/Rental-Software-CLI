@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +14,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class BookingDAO {
-    public static File accessToFile() throws IOException {
-        // Method access the file!
+    static String PATH = "src/main/resources/bookings.csv";
 
-        File file = new File("src/main/resources/bookings.csv");
+    static File accessToCSV() throws IOException {
+        File file = new File(PATH);
         if (!file.exists()) {
             file.createNewFile();
             return file;
@@ -33,7 +32,7 @@ public class BookingDAO {
         String date = local.getDayOfMonth() + "." + local.getMonthValue() + "." + local.getYear();
         Random random = new Random();
         try (
-                FileWriter fileWriter = new FileWriter(BookingDAO.accessToFile(), true);
+                FileWriter fileWriter = new FileWriter(BookingDAO.accessToCSV(), true);
                 PrintWriter writer = new PrintWriter(fileWriter);
         ) {
             System.out.println(carSelection + userSelection);
@@ -43,12 +42,12 @@ public class BookingDAO {
             System.out.println(e.getMessage());
         }
     }
-    public static List<Booking> getAllBookings(){
+    public List<Booking> getList(){
         // Method returns list of cars in availableCars.csv.
 
         List<Booking> allBookings = new ArrayList<>();
         try {
-            Scanner scanner = new Scanner(accessToFile());
+            Scanner scanner = new Scanner(accessToCSV());
             while (scanner.hasNext()) {
                 String a = scanner.nextLine();
                 List<String> temporaryList = new ArrayList<>(new ArrayList<>(List.of(a.split(","))));
