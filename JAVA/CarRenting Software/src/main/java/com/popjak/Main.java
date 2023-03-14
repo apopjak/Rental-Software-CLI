@@ -1,7 +1,6 @@
 package com.popjak;
 
 import com.popjak.booking.BookingServices;
-import com.popjak.booking.BookingViews;
 import com.popjak.car.CarServices;
 import com.popjak.user.UserServices;
 
@@ -44,8 +43,8 @@ public class Main {
             if (input.equals("0")) break;
             switch (input) {
                 case "1" -> BookingServices.newBookingRequest();
-                case "2" -> BookingViews.viewUserBookings();
-                case "3" -> BookingViews.viewAllBookings();
+                case "2" -> BookingServices.viewUserBookings();
+                case "3" -> BookingServices.viewAllBookings();
                 case "4" -> CarServices.showAvailableCars("PETROL");
                 case "5" -> CarServices.showAvailableCars("ELECTRIC");
                 case "6" -> CarServices.showAvailableCars("HYBRID");
