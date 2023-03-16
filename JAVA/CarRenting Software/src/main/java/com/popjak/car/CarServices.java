@@ -9,7 +9,6 @@ import java.util.List;
 
 public class CarServices {
     private static CarDAO carDAO;
-    static BookingDAO bookingDAO = new BookingDAO();
 
     public CarServices(CarDAO carDAO) {
         this.carDAO = carDAO;
@@ -42,7 +41,7 @@ public class CarServices {
 
     private static List<String> isCarBooked(){
         // Boolean to see if car is booked, That pethod helps to Car Service class to show only available cars.
-
+        BookingDAO bookingDAO = new BookingDAO();
         List<Booking> bookingList = bookingDAO.getList();
         List<String> spzList = new ArrayList<>();
 
