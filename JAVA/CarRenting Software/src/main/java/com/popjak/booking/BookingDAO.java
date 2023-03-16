@@ -1,9 +1,9 @@
 package com.popjak.booking;
 
+import com.popjak.DAO;
 import com.popjak.car.Car;
 import com.popjak.user.User;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,17 +13,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class BookingDAO {
+public class BookingDAO implements DAO<Booking> {
     static String PATH = "src/main/resources/bookings.csv";
-
-    static File accessToCSV() throws IOException {
-        File file = new File(PATH);
-        if (!file.exists()) {
-            file.createNewFile();
-            return file;
-        }
-        return file;
-    }
 
     public static void exportToCSV(String carSelection, String userSelection,int days){
         // Method helps to newBookingRequest with exporting into booking.csv
@@ -32,8 +23,8 @@ public class BookingDAO {
         String date = local.getDayOfMonth() + "." + local.getMonthValue() + "." + local.getYear();
         Random random = new Random();
         try (
-                FileWriter fileWriter = new FileWriter(BookingDAO.accessToCSV(), true);
-                PrintWriter writer = new PrintWriter(fileWriter);
+                FileWriter fileWriter = new FileWriter(PATH);
+                PrintWriter writer = new PrintWriter(fileWriter)
         ) {
             System.out.println(carSelection + userSelection);
             writer.print(carSelection  + "," +  userSelection + "," + random.nextInt(10000,999999) + ","
@@ -42,12 +33,16 @@ public class BookingDAO {
             System.out.println(e.getMessage());
         }
     }
-    public List<Booking> getList(){
+
+
+
+    @Override
+    public List<Booking> getList() {
         // Method returns list of cars in availableCars.csv.
 
         List<Booking> allBookings = new ArrayList<>();
         try {
-            Scanner scanner = new Scanner(accessToCSV());
+            Scanner scanner = new Scanner(accessToFile(PATH));
             while (scanner.hasNext()) {
                 String a = scanner.nextLine();
                 List<String> temporaryList = new ArrayList<>(new ArrayList<>(List.of(a.split(","))));

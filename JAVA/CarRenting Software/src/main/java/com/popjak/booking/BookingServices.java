@@ -12,10 +12,19 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+
 public class BookingServices {
-    static BookingDAO bookingDAO = new BookingDAO();
+
+    private static BookingDAO bookingDAO;
+
+    public BookingServices(BookingDAO bookingDAO) {
+        this.bookingDAO = bookingDAO;
+    }
+
     static Scanner scanner = new Scanner(System.in);
-    public static void newBookingRequest(){
+
+
+    public void newBookingRequest(){
         // Method creates new booking requests and exporting them into booking.csv
         // Method is going to print all cars and asks user to enter desired car registration number.
 
@@ -50,7 +59,6 @@ public class BookingServices {
                 return;
             }
 
-
             List<String> a = List.of(CarServices.getCarInfo(carSelection)
                     .substring(1,CarServices.getCarInfo(carSelection).length() - 1).split(","));
             int carPrice = Integer.parseInt(a.get(5));
@@ -70,6 +78,7 @@ public class BookingServices {
 
             // IF USER AGREES STRING PRINTED TO booking.CSV
             if (confirmation.equalsIgnoreCase("yes")){
+
                 BookingDAO.exportToCSV(getCarString,userString, numOfDays);
                 System.out.println("Car booked successfully! ✅");
             } else {
@@ -79,7 +88,9 @@ public class BookingServices {
             System.out.println("Incorrect input ❌");
         }
     }
-    public static void viewUserBookings(){
+
+
+    public void viewUserBookings(){
         // program prints the users, Then u have to select specific user and ull see what he booked.
 
         UserServices.viewAllUsers();
@@ -87,7 +98,7 @@ public class BookingServices {
 
         System.out.println("Enter userID: ");
         String userInput = scanner.nextLine();
-        List<Booking> bookingList = bookingDAO.getList();
+        List<Booking> bookingList =  bookingDAO.getList();
         for (Booking booking : bookingList) {
             User user = booking.getUser();
 
@@ -95,8 +106,11 @@ public class BookingServices {
                 System.out.println(booking.detailedString());
             }
         }
+
     }
-    public static void viewAllBookings() {
+
+
+    public void viewAllBookings() {
         // program prints all bookings
 
         List<Booking> bookingList = bookingDAO.getList();
@@ -104,6 +118,7 @@ public class BookingServices {
             System.out.println(booking.detailedString());
         }
     }
+
 
     private static long remainingDays(String booking, String endDay) throws ParseException {
         // calculates remaining number of days

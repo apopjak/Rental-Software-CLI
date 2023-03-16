@@ -1,27 +1,21 @@
 package com.popjak.car;
 
-import java.io.File;
+import com.popjak.DAO;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CarDAO {
+public class CarDAO implements DAO<Car> {
 
     static String PATH = "src/main/resources/availableCars.csv";
 
-    static File accessToCSV() throws IOException {
-        File file = new File(PATH);
-        if (!file.exists()) {
-            file.createNewFile();
-            return file;
-        }
-        return file;
-    }
-    List<Car> getList() {
+    @Override
+    public List<Car> getList() {
         List<Car> allCars = new ArrayList<>();
         try {
-            Scanner scanner = new Scanner(accessToCSV());
+            Scanner scanner = new Scanner(accessToFile(PATH));
             while (scanner.hasNext()) {
                 String a = scanner.nextLine();
                 List<String> temporaryList = new ArrayList<>(new ArrayList<>(List.of(a.split(","))));

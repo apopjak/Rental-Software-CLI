@@ -1,6 +1,7 @@
 package com.popjak.user;
 
-import java.io.File;
+import com.popjak.DAO;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,36 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserDAO {
-    static String PATH = "src/main/resources/users.csv";
+public class UserDAO implements DAO<User>{
 
-    static File accessToCSV() throws IOException {
-        File file = new File(PATH);
-        if (!file.exists()) {
-            file.createNewFile();
-            return file;
-        }
-        return file;
-    }
+    static final String PATH = "src/main/resources/users.csv";
 
-    void addToCSV(User user) {
-        try(
-                // closable flushable
-                FileWriter fileWriter = new FileWriter(accessToCSV(),true);
-                PrintWriter writer = new PrintWriter(fileWriter);
-        ){
-            writer.print(user);
-            System.out.println("CUSTOM");
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    List<User> getList() {
+    @Override
+    public List<User> getList() {
         List<User> allUsers = new ArrayList<>();
         try {
-            Scanner scanner = new Scanner(accessToCSV());
+            Scanner scanner = new Scanner(accessToFile(PATH));
             while (scanner.hasNext()) {
                 String a = scanner.nextLine();
                 List<String> temporaryList = new ArrayList<>(new ArrayList<>(List.of(a.split(","))));
@@ -49,6 +29,21 @@ public class UserDAO {
         }
         return allUsers;
     }
+
+    public void addToCSV(User user) {
+        try(
+                // closable flushable
+                FileWriter fileWriter = new FileWriter(accessToFile(PATH),true);
+                PrintWriter writer = new PrintWriter(fileWriter)
+        ){
+            writer.print(user);
+            System.out.println("CUSTOM");
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
+
 
 

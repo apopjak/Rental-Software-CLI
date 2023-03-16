@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarServices {
-    static CarDAO carDAO = new CarDAO();
+    private static CarDAO carDAO;
     static BookingDAO bookingDAO = new BookingDAO();
 
+    public CarServices(CarDAO carDAO) {
+        this.carDAO = carDAO;
+    }
 
-    public static void showAvailableCars(String engineType){
+    public void showAvailableCars(String engineType){
         // Method shows available cars. Car cannot be in booking.csv
 
         List<Car> carList = carDAO.getList()
@@ -23,9 +26,10 @@ public class CarServices {
             System.out.println(car.toDetailedString());
         }
     }
+
+
     public static String getCarInfo(String regNm){
         // Method looks into CSV file and return the string of the specific car.
-
 
         List<Car> regNmOutput  = carDAO.getList()
                 .stream()
@@ -34,8 +38,10 @@ public class CarServices {
 
         return regNmOutput.toString().substring(1,regNmOutput.toString().length() - 1);
     }
+
+
     private static List<String> isCarBooked(){
-        // Boolen to see if car is booked, That pethod helps to Car Service class to show only available cars.
+        // Boolean to see if car is booked, That pethod helps to Car Service class to show only available cars.
 
         List<Booking> bookingList = bookingDAO.getList();
         List<String> spzList = new ArrayList<>();

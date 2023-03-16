@@ -6,9 +6,15 @@ import java.util.Scanner;
 
 public class UserServices{
 
-    static UserDAO userDAO = new UserDAO();
+
+    private static UserDAO userDAO;
+
+    public UserServices(UserDAO userDAO) {
+        UserServices.userDAO = userDAO;
+    }
+
     static Scanner scanner = new Scanner(System.in);
-    public static void registerUser() {
+    public void registerUser() {
         // Registration of new user
 
         System.out.print("Name of the user: ");
@@ -19,7 +25,7 @@ public class UserServices{
     }
 
 
-    public static String viewAllUsers(String uuid) {
+    public String viewAllUsers(String uuid) {
 
         // if uuid is Empty (***Empty*** comes from overloaded method bellow)
 
@@ -34,7 +40,7 @@ public class UserServices{
         return "User not found";
     }
 
-    public static String viewAllUsers(){
+    public String viewAllUsers(){
         // Overloaded empty method, which always return whole list.
         viewAllUsers("Empty");
         return null;
