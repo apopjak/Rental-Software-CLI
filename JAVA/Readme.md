@@ -1,8 +1,7 @@
 Current Java Progress: https://coggle.it/diagram/ZBMMYwAjwnrfNTvR/t/how-to-master-java
 
 
-![Screenshot 2023-03-17 161710](https://user-images.githubusercontent.com/59792254/225946372-16575d00-1160-4f4e-bd22-005c3cc18773.png)
-
+![image](https://user-images.githubusercontent.com/59792254/225947010-875d5532-1987-42d0-b973-cf7620680314.png)
 
 
 
