@@ -3,48 +3,47 @@ package com.popjak.booking;
 import com.popjak.car.CarServices;
 import com.popjak.user.User;
 import com.popjak.user.UserServices;
+import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-
+@Service
 public class BookingServices {
 
-    private static BookingDAO bookingDAO;
+    private final BookingDAO bookingDAO;
+    private final CarServices carServices;
+    private final UserServices userServices;
 
-    public BookingServices(BookingDAO bookingDAO) {
+    public BookingServices(BookingDAO bookingDAO, CarServices carServices, UserServices userServices) {
         this.bookingDAO = bookingDAO;
+        this.carServices = carServices;
+        this.userServices = userServices;
     }
 
-    static Scanner scanner = new Scanner(System.in);
+    public void newBookingRequest() {
+        Scanner scanner = new Scanner(System.in);
 
+        // SHOWS ALL CARS
+        carServices.showAvailableCars("PETROL","ELECTRIC", "HYBRID");
 
-    public void newBookingRequest(){
-        // Method creates new booking requests and exporting them into booking.csv
-        // Method is going to print all cars and asks user to enter desired car registration number.
-
-        CarServices.showAvailableCars("PETROL");
-        CarServices.showAvailableCars("ELECTRIC");
-        CarServices.showAvailableCars("HYBRID");
-
-        System.out.print("---------------------------------------------\nEnter Registration number of the car you want to book: ");
-        String carSelection = scanner.nextLine().toUpperCase().trim();
-        String getCarString = CarServices.getCarInfo(carSelection);
-        if (getCarString.startsWith("notFound")) {
-            System.out.println("Car booked already or not in database. try again  ❌");
+        // Ask user to pick the car!
+        System.out.print("---------------------------------------------\n ➡️ Enter Registration number of the car you want to book: ");
+        String SPZ = scanner.nextLine().toUpperCase().trim();
+        String getCarString = carServices.getCarInfo(SPZ);
+        if (carServices.getCarInfo(SPZ).isEmpty()) {
+            System.out.println("incorrect registration number entered  ❌");
             return;
         }
+
         // Method asks user to enter which user ID they want to register with
-        UserServices.viewAllUsers();
+        userServices.viewAllUsers("ALL");
         System.out.println("---------------------------------------------");
-        System.out.print("Select userID (uuid long code): ");
+        System.out.printf(" ➡️ Select USER NAME of the user you want to book %s for: ".formatted(SPZ));
         String userSelection = scanner.nextLine().toLowerCase().trim();
-        String userString = UserServices.viewAllUsers(userSelection);
+        String userString = userServices.viewAllUsers(userSelection);
         if (userString.startsWith("User")) {
             System.out.println("Incorrect user selected ❌");
             return;
@@ -59,10 +58,11 @@ public class BookingServices {
                 return;
             }
 
-            List<String> a = List.of(CarServices.getCarInfo(carSelection)
-                    .substring(1,CarServices.getCarInfo(carSelection).length() - 1).split(","));
-            int carPrice = Integer.parseInt(a.get(5));
+            List<String> a = List.of(carServices.getCarInfo(SPZ).split(","));
+            int carPrice = Integer.parseInt(a.get(a.size() - 1));
             int finalPrice = numOfDays * carPrice;
+            System.out.println(carPrice + " car price");
+            System.out.println(finalPrice + " final price");
 
 
             // TOTAL BILL PRINTER HERE
@@ -74,12 +74,13 @@ public class BookingServices {
                     "\nTotal bill: " + finalPrice +
                     "€\nConfirm the selection by typing 'yes': ");
 
-            String confirmation = scanner.nextLine();
+            Scanner sc = new Scanner(System.in);
+            String confirmation = sc.nextLine().trim();
 
             // IF USER AGREES STRING PRINTED TO booking.CSV
             if (confirmation.equalsIgnoreCase("yes")){
-
-                BookingDAO.exportToCSV(getCarString,userString, numOfDays);
+                bookingDAO.exportToCSV(getCarString,userString, numOfDays);
+                carServices.removeCarFromFile(SPZ);
                 System.out.println("Car booked successfully! ✅");
             } else {
                 System.out.println("Booking canceled ❌");
@@ -87,18 +88,18 @@ public class BookingServices {
         } catch (NumberFormatException e) {
             System.out.println("Incorrect input ❌");
         }
-    }
 
+    }
 
     public void viewUserBookings(){
         // program prints the users, Then u have to select specific user and ull see what he booked.
-
-        UserServices.viewAllUsers();
+        Scanner scanner = new Scanner(System.in);
+        userServices.viewAllUsers("All");
         System.out.println("---------------------------------");
 
         System.out.println("Enter userID: ");
         String userInput = scanner.nextLine();
-        List<Booking> bookingList =  bookingDAO.getList();
+        List<Booking> bookingList =  bookingDAO.getAllBookings();
         for (Booking booking : bookingList) {
             User user = booking.getUser();
 
@@ -106,29 +107,26 @@ public class BookingServices {
                 System.out.println(booking.detailedString());
             }
         }
-
     }
-
 
     public void viewAllBookings() {
         // program prints all bookings
 
-        List<Booking> bookingList = bookingDAO.getList();
+        List<Booking> bookingList = bookingDAO.getAllBookings();
         for (Booking booking : bookingList) {
             System.out.println(booking.detailedString());
         }
     }
 
+    public List<String> isCarBooked(){
 
-    private static long remainingDays(String booking, String endDay) throws ParseException {
-        // calculates remaining number of days
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
-        Date firstDate = sdf.parse(booking);
-        Date secondDate = sdf.parse(endDay);
-        long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
-
-        return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        List<String> spzList = new ArrayList<>();
+        for (Booking booking : bookingDAO.getAllBookings()) {
+            spzList.add(booking.getCar().getRegNum());
+        }
+        return spzList;
     }
+
+
 
 }

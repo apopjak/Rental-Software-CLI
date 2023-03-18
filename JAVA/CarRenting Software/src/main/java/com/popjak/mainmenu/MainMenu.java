@@ -1,18 +1,15 @@
 package com.popjak.mainmenu;
 
-import com.popjak.booking.BookingDAO;
 import com.popjak.booking.BookingServices;
-import com.popjak.car.CarDAO;
 import com.popjak.car.CarServices;
-import com.popjak.user.UserDAO;
 import com.popjak.user.UserServices;
 
 import java.util.Scanner;
 
 public class MainMenu {
-    CarServices carServices;
-    BookingServices bookingServices;
-    UserServices userServices;
+    private final CarServices carServices;
+    private final BookingServices bookingServices;
+    private final UserServices userServices;
 
     public MainMenu(CarServices carServices, BookingServices bookingServices, UserServices userServices) {
         this.carServices = carServices;
@@ -20,17 +17,8 @@ public class MainMenu {
         this.userServices = userServices;
     }
 
-    public static void mainMenu(){
 
-        BookingDAO bookingDAO = new BookingDAO();
-        BookingServices bookingServices = new BookingServices(bookingDAO);
-
-        CarDAO carDAO = new CarDAO();
-        CarServices carServices = new CarServices(carDAO);
-
-        UserDAO userDAO = new UserDAO();
-        UserServices userServices = new UserServices(userDAO);
-
+    public void mainMenu(){
 
 
         String input;
@@ -57,10 +45,10 @@ public class MainMenu {
                 case "1" -> bookingServices.newBookingRequest();
                 case "2" -> bookingServices.viewUserBookings();
                 case "3" -> bookingServices.viewAllBookings();
-                case "4" -> carServices.showAvailableCars("PETROL");
-                case "5" -> carServices.showAvailableCars("ELECTRIC");
-                case "6" -> carServices.showAvailableCars("HYBRID");
-                case "7" -> userServices.viewAllUsers();
+                case "4" -> carServices.showAvailableCars("PETROL", "none", "none");
+                case "5" -> carServices.showAvailableCars("none", "ELECTRIC", "none");
+                case "6" -> carServices.showAvailableCars("none", "none", "HYBRID");
+                case "7" -> userServices.viewAllUsers("ALL");
                 case "8" -> userServices.registerUser();
 
                 default -> System.out.println(input + " is not a valid option ❌");

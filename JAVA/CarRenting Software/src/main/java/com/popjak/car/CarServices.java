@@ -1,53 +1,86 @@
 package com.popjak.car;
 
 
-import com.popjak.booking.Booking;
-import com.popjak.booking.BookingDAO;
+import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
+@Service
 public class CarServices {
-    private static CarDAO carDAO;
+
+    private final CarDAO carDAO;
 
     public CarServices(CarDAO carDAO) {
         this.carDAO = carDAO;
     }
 
-    public void showAvailableCars(String engineType){
-        // Method shows available cars. Car cannot be in booking.csv
 
-        List<Car> carList = carDAO.getList()
+    public void showAvailableCars(String petrol,String electric,String hybrid){
+        /* Method shows car based on entered STRING argument
+          IN THIS ORDER: PETROL , ELECTRIC , HYBRID
+          If u don't want to show for example electric, enter NONE instead of electric.**/
+
+        List<Car> carList = carDAO.getAllCars()
                 .stream()
-                .filter(car -> car.getEngineType().equals(engineType) && (!isCarBooked().contains(car.getRegNum())))
+                .filter(car -> car.getEngineType().equals(petrol)
+                            || car.getEngineType().equals(electric)
+                            || car.getEngineType().equals(hybrid))
                 .toList();
+
         for (Car car : carList) {
             System.out.println(car.toDetailedString());
         }
+
     }
-
-
-    public static String getCarInfo(String regNm){
+    public String getCarInfo(String regNm){
         // Method looks into CSV file and return the string of the specific car.
 
-        List<Car> regNmOutput  = carDAO.getList()
+        List<Car> regNmOutput  = carDAO.getAllCars()
                 .stream()
-                .filter(car -> car.getRegNum().equalsIgnoreCase(regNm) && (!isCarBooked().contains(car.getRegNum())))
+                .filter(car -> car.getRegNum().equalsIgnoreCase(regNm))
                 .toList();
 
         return regNmOutput.toString().substring(1,regNmOutput.toString().length() - 1);
     }
 
+    public void removeCarFromFile(String regNum) {
+        //Remove specific car by regNum,
 
-    private static List<String> isCarBooked(){
-        // Boolean to see if car is booked, That pethod helps to Car Service class to show only available cars.
-        BookingDAO bookingDAO = new BookingDAO();
-        List<Booking> bookingList = bookingDAO.getList();
-        List<String> spzList = new ArrayList<>();
-
-        for (int i = 0; i < bookingList.size(); i++) {
-            spzList.add(bookingList.get(i).getCar().getRegNum());
+        // Temporary list where all cars are saved
+        List <String> temporaryList = new ArrayList<>();
+        try (
+                FileWriter fileWriter = new FileWriter(carDAO.accessToFile(), true);
+                PrintWriter writer = new PrintWriter(fileWriter)
+                ){
+            Scanner scanner = new Scanner(carDAO.accessToFile());
+            // adds values to temporaryList
+            while (scanner.hasNext()) {
+                temporaryList.add(scanner.nextLine().trim());
+            }
+            // remove car from the list
+            for (int i = 0; i < temporaryList.size(); i++) {
+                if (temporaryList.get(i).startsWith(regNum)) {
+                    temporaryList.remove(temporaryList.get(i));
+                }
+            }
+            // second FileWriter APPEND FALSE remove all the content and then new adjusted content is added
+            FileWriter contentRemoval = new FileWriter(carDAO.accessToFile());
+            for (String s : temporaryList) {
+                writer.println(s);
+            }
+            contentRemoval.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
-        return spzList;
+
     }
 }

@@ -19,6 +19,7 @@ public class Booking {
         this.bookingId = random.nextInt(10000,99999);
         LocalDateTime local = LocalDateTime.now();
         this.date = local.getDayOfMonth() + "." + local.getMonthValue() + "." + local.getYear();
+
     }
 
     @Override

@@ -23,8 +23,8 @@ public class User {
 
 
     public String fullString() {
-        return "userid: " + userid +
-                ", name: " + name +
+        return "name: " + name +
+                ", userid: " + userid +
                 ", address: " + address  +
                 ", phone: " + phone +
                 ", email: " + email;
@@ -33,6 +33,7 @@ public class User {
     public String toString() {
         return userid + "," + name + "\n";
     }
+
     public String userString() {
         return name + "," + userid;
     }
