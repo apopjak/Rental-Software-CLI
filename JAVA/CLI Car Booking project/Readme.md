@@ -1,7 +1,7 @@
 # CLI Car Booking project
 ### **Built in IntelliJ / Maven**
 
-![img.png](img.png)
+![img.png](img.png)    
 
 **src/main/java/com/popjak/**
 
@@ -28,4 +28,6 @@ Currently working on Spring Boot and Dependency Injection.
 Plan is to connect the project to database and create API which is going to return jason 
 based on specific criteria.
 
+![img_3.png](img_3.png)
 
+![img_2.png](img_2.png)![img_1.png](img_1.png)
