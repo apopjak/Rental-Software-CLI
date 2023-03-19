@@ -62,17 +62,15 @@ public class CarServices {
                 PrintWriter writer = new PrintWriter(fileWriter)
                 ){
             Scanner scanner = new Scanner(carDAO.accessToFile());
+            
             // adds values to temporaryList
             while (scanner.hasNext()) {
-                temporaryList.add(scanner.nextLine().trim());
-            }
-            // remove car from the list
-            for (int i = 0; i < temporaryList.size(); i++) {
-                if (temporaryList.get(i).startsWith(regNum)) {
-                    temporaryList.remove(temporaryList.get(i));
+                String item = scanner.nextLine();
+                if (!item.substring(0,7).equalsIgnoreCase(regNum)) {
+                    temporaryList.add(item);
                 }
             }
-            // second FileWriter APPEND FALSE remove all the content and then new adjusted content is added
+//          second FileWriter APPEND FALSE remove all the content and then new adjusted content is added
             FileWriter contentRemoval = new FileWriter(carDAO.accessToFile());
             for (String s : temporaryList) {
                 writer.println(s);
