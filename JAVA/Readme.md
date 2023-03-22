@@ -1,4 +1,4 @@
 Current Java progress: https://coggle.it/diagram/ZBc-IUKapKjeblXk/t/java-progression-andrej-popjak
 
 
-![image](https://user-images.githubusercontent.com/59792254/226192422-eb4a2b27-8bf4-4789-8e22-a8c18e94158e.png)
+![image](https://user-images.githubusercontent.com/59792254/226965872-c4731ad3-7814-42ea-93eb-d07fa060911e.png)
