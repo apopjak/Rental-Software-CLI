@@ -1,5 +1,5 @@
 # Student API made in Spring Boot
-Student API is able to connect to database in PostgreSQL and perform operations as post, delete, put.
+Student API is able to connect to database in PostgreSQL and perform operations as **post, delete, put**, 
 API was running on local server. 
 
 
