@@ -19,3 +19,6 @@ API was running on local server.
 - Maven 
 
 ![img.png](img.png)
+
+
+![SpringBootGetStarted.jpg](SpringBootGetStarted.jpg)
