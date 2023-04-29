@@ -108,6 +108,7 @@ public class RentalCarCliApplication {
 
 					System.out.println("--------- User registration ----------------------");
 
+
 					System.out.print("First name: ");
 					String firstName = titleCase(scanner.nextLine());
 
