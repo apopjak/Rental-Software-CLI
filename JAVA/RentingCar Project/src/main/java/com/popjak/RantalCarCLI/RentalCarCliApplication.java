@@ -1,9 +1,10 @@
 package com.popjak.RantalCarCLI;
 
-import com.popjak.RantalCarCLI.Car.Car;
-import com.popjak.RantalCarCLI.Car.CarService;
-import com.popjak.RantalCarCLI.User.User;
-import com.popjak.RantalCarCLI.User.UserService;
+import com.popjak.RantalCarCLI.car.Car;
+import com.popjak.RantalCarCLI.car.CarService;
+import com.popjak.RantalCarCLI.user.User;
+import com.popjak.RantalCarCLI.user.UserService;
+import com.popjak.RantalCarCLI.utils.ToTitleCaseString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -45,7 +46,7 @@ public class RentalCarCliApplication {
 		while (program) {
 
 			String message = """
-        
+					   
 					-------------------------------------
 					1️⃣ --> Book a car                   |
 					-------------------------------------						   
@@ -74,13 +75,12 @@ public class RentalCarCliApplication {
 				}
 				case "1" -> {
 					System.out.println("--------- Book a car -------------------------------------");
-					Car car1 = new Car("PP253X2", "Hummer", "h1","1991","21","Petrol");
+					Car car1 = new Car("PP253X2", "Hummer", "h1", "1991", "21", "Petrol");
 
 					carService.insertToDB(car1);
 
 				}
-				case "2" ->
-				{
+				case "2" -> {
 					System.out.println("--------- View available ELECTRIC cars -------------------------------------");
 					carService.showAllElectricCars();
 				}
@@ -106,31 +106,28 @@ public class RentalCarCliApplication {
 				}
 				case "8" -> {
 
-					System.out.println("--------- User registration ----------------------");
+					System.out.println("--------- user registration ----------------------");
 
 
 					System.out.print("First name: ");
-					String firstName = titleCase(scanner.nextLine());
+					String firstName = ToTitleCaseString.titleCase(scanner.nextLine());
 
 					System.out.print("Last name: ");
-					String lastName = titleCase(scanner.nextLine());
+					String lastName = ToTitleCaseString.titleCase(scanner.nextLine());
 
 					System.out.print("Email address: ");
 					String email = scanner.nextLine().toLowerCase();
 					if (!email.contains("@")) {
 						System.out.println(" >>> Wrong email format ❌");
 					} else {
-						User user = new User(firstName,lastName,email);
+						User user = new User(firstName, lastName, email);
 						userService.registerUser(user);
 					}
 				}
 			}
 		}
-	}
 
-	private static String titleCase(String string) {
-		return string.substring(0,1).toUpperCase() + string.substring(1).toLowerCase();
-	}
 
+	}
 
 }

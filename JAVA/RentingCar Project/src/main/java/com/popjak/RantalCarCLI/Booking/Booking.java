@@ -1,4 +1,4 @@
-package com.popjak.RantalCarCLI.Booking;
+package com.popjak.RantalCarCLI.booking;
 
 import jakarta.persistence.*;
 
@@ -10,6 +10,8 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer Id;
+
+
 
     
 

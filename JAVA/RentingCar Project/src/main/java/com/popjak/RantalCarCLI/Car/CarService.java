@@ -1,11 +1,10 @@
-package com.popjak.RantalCarCLI.Car;
+package com.popjak.RantalCarCLI.car;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CarService {
@@ -39,7 +38,7 @@ public class CarService {
     public void insertToDB(Car car) {
         if (!carJPA.existByRegNum(car.getRegNum())) {
             carJPA.insertToDB(car);
-        } else System.out.println("Car in DB already");
+        } else System.out.println("car in DB already");
 
 
 

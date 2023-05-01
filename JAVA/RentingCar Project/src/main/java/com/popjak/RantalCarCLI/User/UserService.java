@@ -1,4 +1,4 @@
-package com.popjak.RantalCarCLI.User;
+package com.popjak.RantalCarCLI.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class UserService {
         if (isEmailInDatabase(user.getEmail())) {
             System.out.println(" >>> Email already registered ❌");
         } else {
-            System.out.println(" >>> User Registered ✅");
+            System.out.println(" >>> user Registered ✅");
             userJPA.insertUserIntoDB(user);
         }
     }
