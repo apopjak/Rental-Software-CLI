@@ -1,4 +1,4 @@
-package com.popjak.RantalCarCLI.utils;
+package com.popjak.RentalCarCLI.utils;
 
 import org.junit.jupiter.api.Test;
 

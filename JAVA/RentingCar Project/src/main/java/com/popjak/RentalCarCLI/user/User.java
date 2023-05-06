@@ -1,4 +1,4 @@
-package com.popjak.RantalCarCLI.user;
+package com.popjak.RentalCarCLI.user;
 
 import jakarta.persistence.*;
 

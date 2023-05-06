@@ -1,6 +1,6 @@
-package com.popjak.RantalCarCLI.car;
+package com.popjak.RentalCarCLI.car;
 
-import java.util.List;
+import java.util.*;
 
 public interface CarDAO {
 
@@ -9,4 +9,6 @@ public interface CarDAO {
     void insertToDB(Car car);
 
     boolean existByRegNum(String regNum);
+
+    void removeFromDB(String regNum);
 }

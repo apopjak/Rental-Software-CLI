@@ -1,4 +1,4 @@
-package com.popjak.RantalCarCLI.car;
+package com.popjak.RentalCarCLI.car;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -44,5 +44,19 @@ public class CarJPADataAccessService implements CarDAO {
         TypedQuery<Car> theQuery = entityManager.createQuery(query, Car.class);
         theQuery.setParameter("theData", regNum);
         return theQuery.getResultList().size() > 0;
+    }
+
+    @Override
+    @Transactional
+    public void removeFromDB(String regNum) {
+        String query = """
+                FROM Car
+                WHERE regNum=:theData
+                """;
+
+        TypedQuery<Car> theQuery = entityManager.createQuery(query, Car.class);
+        int id = theQuery.setParameter("theData", regNum).getSingleResult().getId();
+        Car car = entityManager.find(Car.class,id);
+        entityManager.remove(car);
     }
 }

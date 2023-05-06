@@ -1,8 +1,9 @@
-package com.popjak.RantalCarCLI.user;
+package com.popjak.RentalCarCLI.user;
+
 
 import java.util.List;
 
-public interface UserDAO e{
+public interface UserDAO {
     // crud
 
     // insert
@@ -14,4 +15,6 @@ public interface UserDAO e{
     User findUserById(Integer Id);
 
     boolean existUserByEmail(String email);
+
+    List<User> findUserByEmail(String email);
 }

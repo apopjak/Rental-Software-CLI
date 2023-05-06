@@ -1,8 +1,8 @@
-package com.popjak.RantalCarCLI.car;
+package com.popjak.RentalCarCLI.car;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "car_data")
@@ -31,17 +31,22 @@ public class Car {
     @Column(name = "engine")
     private String engine;
 
+    @Column(name = "price")
+    private String price;
+
     public Car() {
     }
 
-    public Car(String regNum, String brand, String model, String year, String kw, String engine) {
+    public Car(String regNum, String brand, String model, String year, String kw, String engine, String price) {
         this.regNum = regNum;
         this.brand = brand;
         this.model = model;
         this.year = year;
         this.kw = kw;
         this.engine = engine;
+        this.price = price;
     }
+
 
     @Override
     public String toString() {
@@ -49,7 +54,23 @@ public class Car {
                 "year: " + year + ", " +
                 "power: " + kw + "kw, " +
                 "engine: " + engine + ", " +
-                "regNumber: " + regNum;
+                "regNumber: " + regNum  + ", " +
+                "price per day: " + price + "€";
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Objects.equals(Id, car.Id) && Objects.equals(regNum, car.regNum) && Objects.equals(brand, car.brand) && Objects.equals(model, car.model) && Objects.equals(year, car.year) && Objects.equals(kw, car.kw) && Objects.equals(engine, car.engine) && Objects.equals(price, car.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, regNum, brand, model, year, kw, engine, price);
     }
 
     public Integer getId() {
@@ -108,16 +129,11 @@ public class Car {
         this.engine = engine;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return Objects.equals(Id, car.Id) && Objects.equals(regNum, car.regNum) && Objects.equals(brand, car.brand) && Objects.equals(model, car.model) && Objects.equals(year, car.year) && Objects.equals(kw, car.kw) && Objects.equals(engine, car.engine);
+    public String getPrice() {
+        return price;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(Id, regNum, brand, model, year, kw, engine);
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

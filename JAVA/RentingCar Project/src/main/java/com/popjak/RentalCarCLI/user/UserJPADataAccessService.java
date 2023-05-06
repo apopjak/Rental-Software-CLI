@@ -1,4 +1,4 @@
-package com.popjak.RantalCarCLI.user;
+package com.popjak.RentalCarCLI.user;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -55,5 +55,17 @@ public class UserJPADataAccessService implements UserDAO {
 
         List<User> resultList = theQuery.getResultList();
         return resultList.size() > 0;
+    }
+
+    @Override
+    public List<User> findUserByEmail(String email) {
+        String query = """
+                FROM User
+                WHERE email=:theData
+                """;
+        TypedQuery<User> theQuery = entityManager.createQuery(query,User.class);
+        theQuery.setParameter("theData", email);
+
+        return theQuery.getResultList();
     }
 }
