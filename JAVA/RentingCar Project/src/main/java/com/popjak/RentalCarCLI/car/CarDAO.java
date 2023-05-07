@@ -8,7 +8,11 @@ public interface CarDAO {
 
     void insertToDB(Car car);
 
+    boolean existById(Integer Id);
+
     boolean existByRegNum(String regNum);
 
-    void removeFromDB(String regNum);
+    void removeFromDB(Integer Id);
+
+
 }

@@ -20,13 +20,14 @@ public class RemoveCarFromDB {
         Scanner scanner = new Scanner(System.in);
         carService.showAllCars();
         System.out.print("\nEnter registration number of the car you want to remove:");
-        String regNum = scanner.nextLine().toUpperCase();
+        Integer carID = scanner.nextInt();
 
-        if (carService.carRegNumInDB(regNum)) {
-            carService.removeCarFromDB(regNum);
-            System.out.println("✅ Car has been removed");
+        // todo toto opravit
+        if (!carService.checkIfInDB(carID)) {
+            System.out.println("❌ WRONG ID ! Try again");
         } else {
-            System.out.println("❌ Registration number " + regNum + " is not in DB");
+            carService.removeCarFromDB(carID);
+            System.out.println("✅ Car has been removed");
         }
 
     }

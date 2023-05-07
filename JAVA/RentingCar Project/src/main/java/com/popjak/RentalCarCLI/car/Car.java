@@ -50,7 +50,7 @@ public class Car {
 
     @Override
     public String toString() {
-        return brand + " " + model  + ", " +
+        return  "ID: " + Id + " | " + brand + " " + model  + ", " +
                 "year: " + year + ", " +
                 "power: " + kw + "kw, " +
                 "engine: " + engine + ", " +

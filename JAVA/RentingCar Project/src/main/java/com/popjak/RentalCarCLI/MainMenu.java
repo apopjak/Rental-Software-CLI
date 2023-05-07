@@ -1,6 +1,5 @@
 package com.popjak.RentalCarCLI;
 
-import com.popjak.RentalCarCLI.adminMenu.*;
 import com.popjak.RentalCarCLI.mainMenu.*;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
@@ -13,28 +12,18 @@ public class MainMenu {
 
 	// Dependencies
 	private final ViewAvailableCars viewAvailableCars;
-
-	private final ViewAllUsers viewAllUsers;
-	private final ShowUserByEmail showUserSelectedByEmail;
 	private final RegisterUser registerUser;
-
 	private final AdminMenu adminMenu;
 
-
-	public MainMenu(ViewAvailableCars viewAvailableCars, ViewAllUsers viewAllUsers, ShowUserByEmail showUserSelectedByEmail, RegisterUser registerUser, AdminMenu adminMenu) {
+	public MainMenu(ViewAvailableCars viewAvailableCars, RegisterUser registerUser, AdminMenu adminMenu) {
 		this.viewAvailableCars = viewAvailableCars;
-		this.viewAllUsers = viewAllUsers;
-		this.showUserSelectedByEmail = showUserSelectedByEmail;
 		this.registerUser = registerUser;
 		this.adminMenu = adminMenu;
 	}
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(MainMenu.class, args);
 	}
-
-
 
 	@Bean
 	public CommandLineRunner commandLineRunner() {
@@ -117,11 +106,11 @@ public class MainMenu {
 				}
 				case "6" -> {
 					System.out.println("--------- Register new account -------------------------------------");
-					System.out.println("5");
+					registerUser.registerNewUser();
 				}
 
 				case "9" -> {
-										adminMenu.admin();
+					adminMenu.admin();
 				}
 			}
 		}

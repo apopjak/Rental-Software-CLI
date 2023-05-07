@@ -35,6 +35,14 @@ public class CarJPADataAccessService implements CarDAO {
     }
 
     @Override
+    public boolean existById(Integer Id) {
+
+        Car car = entityManager.find(Car.class,Id);
+        return !car.getRegNum().isBlank();
+
+    }
+
+    @Override
     public boolean existByRegNum(String regNum) {
         String query = """
                 FROM Car
@@ -48,15 +56,9 @@ public class CarJPADataAccessService implements CarDAO {
 
     @Override
     @Transactional
-    public void removeFromDB(String regNum) {
-        String query = """
-                FROM Car
-                WHERE regNum=:theData
-                """;
+    public void removeFromDB(Integer Id) {
 
-        TypedQuery<Car> theQuery = entityManager.createQuery(query, Car.class);
-        int id = theQuery.setParameter("theData", regNum).getSingleResult().getId();
-        Car car = entityManager.find(Car.class,id);
+        Car car = entityManager.find(Car.class,Id);
         entityManager.remove(car);
     }
 }

@@ -38,8 +38,12 @@ public class CarService {
         return carJPA.existByRegNum(reg);
     }
 
-    public void removeCarFromDB(String regNum) {
-        carJPA.removeFromDB(regNum);
+    public boolean checkIfInDB(Integer Id) {
+        return carJPA.existById(Id);
+    }
+
+    public void removeCarFromDB(Integer Id) {
+        carJPA.removeFromDB(Id);
     }
 
 

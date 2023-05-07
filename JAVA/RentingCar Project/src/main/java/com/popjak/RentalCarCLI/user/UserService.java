@@ -28,7 +28,7 @@ public class UserService {
 
     }
 
-    private boolean isEmailInDatabase(String email) {
+    public boolean isEmailInDatabase(String email) {
         return userJpa.existUserByEmail(email);
     }
 
