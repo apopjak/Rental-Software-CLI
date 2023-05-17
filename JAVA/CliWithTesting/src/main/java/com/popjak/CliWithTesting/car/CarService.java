@@ -5,8 +5,6 @@ import org.springframework.stereotype.*;
 
 import java.util.*;
 
-import static com.popjak.CliWithTesting.util.StringIntegerChecker.stringIntegerChecker;
-
 @Service
 public class CarService implements CarDAO{
     private final CarRepository carRepository;
@@ -27,6 +25,7 @@ public class CarService implements CarDAO{
     }
 
     @Override
+    @Transactional
     public int removeCarFromDBByID(Integer Id) {
         if (!carRepository.existsCarById(Id)) {
             System.out.println("❌ This ID not in DB");
@@ -38,6 +37,7 @@ public class CarService implements CarDAO{
     }
 
     @Override
+    @Transactional
     public void removerCarEntity(Car car) {
         carRepository.delete(car);
     }
@@ -62,49 +62,5 @@ public class CarService implements CarDAO{
             return carRepository.existsCarByRegNum(regNum);
         }
         return false;
-    }
-
-    @Override
-    public Car saveCar(String regNum) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Brand: ");
-        String brand = scanner.nextLine().toUpperCase().trim();
-
-        System.out.print("Model: ");
-        String model = scanner.nextLine().toUpperCase().trim();
-
-        System.out.print("Year: ");
-        String year = stringIntegerChecker(scanner.nextLine());
-        if (year == null) return null;
-
-        System.out.print("kilowatts (kw): ");
-        String kw = stringIntegerChecker(scanner.nextLine());
-        if (kw == null) return null;
-
-        System.out.print("Engine type (petrol, electric, hybrid): ");
-        String engine = engineTypeChecker(scanner.nextLine());
-        if (engine == null) return null;
-
-
-        System.out.print("Rent price per day: ");
-        String price = stringIntegerChecker(scanner.nextLine());
-        if (price == null) return null;
-
-        return new Car(regNum,brand,model,year,kw,engine,price);
-    }
-
-    String engineTypeChecker(String engine) {
-
-        if (engine.isEmpty()) return null;
-        if (engine.substring(0, 3).equalsIgnoreCase("ele")) {
-            return "ELECTRIC";
-        } else if (engine.substring(0, 3).equalsIgnoreCase("pet")) {
-            return "PETROL";
-        } else if (engine.substring(0, 3).equalsIgnoreCase("hyb")) {
-            return "HYBRID";
-        }
-        System.out.println("❌ Incorrect Engine Type");
-        return null;
     }
 }

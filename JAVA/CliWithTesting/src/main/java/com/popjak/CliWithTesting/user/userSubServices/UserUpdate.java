@@ -1,15 +1,16 @@
 package com.popjak.CliWithTesting.user.userSubServices;
 
 import com.popjak.CliWithTesting.user.*;
-import static com.popjak.CliWithTesting.util.StringIntegerChecker.stringIntegerChecker;
 import org.springframework.stereotype.*;
 
 import java.util.*;
 
+import static com.popjak.CliWithTesting.util.StringIntegerChecker.*;
+
 @Component
 public class UserUpdate {
 
-    private final UserDAO userDAO;
+    private  UserDAO userDAO;
 
     public UserUpdate(UserDAO userDAO) {
         this.userDAO = userDAO;

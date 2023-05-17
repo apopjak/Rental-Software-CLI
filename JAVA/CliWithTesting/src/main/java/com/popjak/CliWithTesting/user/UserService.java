@@ -24,7 +24,7 @@ public class UserService implements UserDAO {
 
     @Override
     public User findUserById(Integer Id) {
-        if (existsById(Id)) {
+        if (!existsById(Id)) {
             System.out.println("❌ This ID not in DB");
             return null;
         }

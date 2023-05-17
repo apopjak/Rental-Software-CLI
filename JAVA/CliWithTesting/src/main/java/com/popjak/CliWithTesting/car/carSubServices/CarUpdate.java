@@ -25,10 +25,17 @@ public class CarUpdate {
          */
 
         carDAO.listAllCars().forEach(System.out::println);
-        System.out.print("\nSelect ID of the car you want to remove: ");
+        System.out.print("\nSelect ID of the car you want to update: ");
         String input = stringIntegerChecker(sc.nextLine());
         if (input == null) return;
+
         Integer Id = Integer.parseInt(input);
+
+        if (!carDAO.existsById(Id)){
+            System.out.println("❌ ID not in DB");
+            return;
+        }
+
         Car oldCar = carDAO.findById(Id);
 
         System.out.print("Registration Number: ");
@@ -38,7 +45,7 @@ public class CarUpdate {
             return;
         }
 
-        Car car = carDAO.saveCar(regNum);
+        Car car = CarRegistrationInput.saveCar(regNum);
         if (car == null) return;
 
         System.out.println(car.registrationString());

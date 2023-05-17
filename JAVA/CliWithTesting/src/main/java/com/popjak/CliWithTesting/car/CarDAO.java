@@ -18,7 +18,6 @@ public interface CarDAO {
 
     boolean existsByRegNum(String regNum);
 
-    Car saveCar(String regNum);
 
 
 

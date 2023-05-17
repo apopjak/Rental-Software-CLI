@@ -26,7 +26,7 @@ public class CarRegistration {
             return;
         }
 
-        Car car = carDAO.saveCar(regNum);
+        Car car = CarRegistrationInput.saveCar(regNum);
         if (car == null) return;
 
         System.out.println(car.registrationString());
