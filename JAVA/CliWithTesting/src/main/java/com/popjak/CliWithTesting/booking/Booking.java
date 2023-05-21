@@ -3,10 +3,11 @@ package com.popjak.CliWithTesting.booking;
 import jakarta.persistence.*;
 
 import java.time.*;
+import java.time.format.*;
 import java.util.*;
 
 @Entity
-@Table(name = "bookind_data")
+@Table(name = "booking_data")
 
 public class Booking {
     @Id
@@ -14,49 +15,28 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
 
-    @Column(name = "booking_date")
-    private final LocalDate bookingDate = LocalDate.now();
+    @Column(name = "booking_start_date")
+    private LocalDate bookingDate;
 
-    @Column(name = "end_date")
-    private String endDate;
+    @Column(name = "booking_end_date")
+    private LocalDate bookingEndDate;
 
-    @Column(name = "car_id")
-    private String CarId;
+    @Column(name = "reg_num")
+    private String regNum;
 
-    @Column(name = "user_id")
-    private String UserId;
+    @Column(name = "user_email")
+    private String userEmail;
+
+
 
     public Booking() {
     }
 
-    public Booking(String endDate, String carId, String userId) {
-        this.endDate = endDate;
-        CarId = carId;
-        UserId = userId;
-    }
-
-    @Override
-    public String toString() {
-        return "Booking{" +
-                "Id=" + Id +
-                ", bookingDate=" + bookingDate +
-                ", endDate='" + endDate + '\'' +
-                ", CarId='" + CarId + '\'' +
-                ", UserId='" + UserId + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Booking booking = (Booking) o;
-        return Objects.equals(Id, booking.Id) && Objects.equals(bookingDate, booking.bookingDate) && Objects.equals(endDate, booking.endDate) && Objects.equals(CarId, booking.CarId) && Objects.equals(UserId, booking.UserId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(Id, bookingDate, endDate, CarId, UserId);
+    public Booking(Integer bookingEndDate, String regNum, String userEmail) {
+        this.bookingDate = LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+        this.bookingEndDate = this.bookingDate.plusDays(bookingEndDate);
+        this.regNum = regNum;
+        this.userEmail = userEmail;
     }
 
     public Integer getId() {
@@ -71,27 +51,55 @@ public class Booking {
         return bookingDate;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public void setBookingDate(LocalDate bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public LocalDate getBookingEndDate() {
+        return bookingEndDate;
     }
 
-    public String getCarId() {
-        return CarId;
+    public void setBookingEndDate(LocalDate bookingEndDate) {
+        this.bookingEndDate = bookingEndDate;
     }
 
-    public void setCarId(String carId) {
-        CarId = carId;
+    public String getRegNum() {
+        return regNum;
     }
 
-    public String getUserId() {
-        return UserId;
+    public void setRegNum(String regNum) {
+        this.regNum = regNum;
     }
 
-    public void setUserId(String userId) {
-        UserId = userId;
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "Id=" + Id +
+                ", bookingDate=" + bookingDate +
+                ", bookingEndDate=" + bookingEndDate +
+                ", regNum='" + regNum + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Booking booking = (Booking) o;
+        return Objects.equals(Id, booking.Id) && Objects.equals(bookingDate, booking.bookingDate) && Objects.equals(bookingEndDate, booking.bookingEndDate) && Objects.equals(regNum, booking.regNum) && Objects.equals(userEmail, booking.userEmail);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, bookingDate, bookingEndDate, regNum, userEmail);
     }
 }

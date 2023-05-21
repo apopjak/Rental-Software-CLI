@@ -18,7 +18,7 @@ public class BookingService implements BookingDAO{
     @Override
     @Transactional
     public void insertIntoDB(Booking booking) {
-
+        bookingJPA.save(booking);
     }
 
     @Override

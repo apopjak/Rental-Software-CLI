@@ -7,4 +7,5 @@ public interface BookingDAO {
     void insertIntoDB(Booking booking);
 
     List<Booking> listAllBookings();
+
 }

@@ -1,6 +1,8 @@
 package com.popjak.CliWithTesting;
 
 
+import com.popjak.CliWithTesting.booking.*;
+import com.popjak.CliWithTesting.booking.bookingSubservice.*;
 import com.popjak.CliWithTesting.car.*;
 import com.popjak.CliWithTesting.car.carSubServices.*;
 import com.popjak.CliWithTesting.user.*;
@@ -9,6 +11,7 @@ import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.annotation.*;
 
+import java.time.*;
 import java.util.*;
 
 import static com.popjak.CliWithTesting.util.ScreenCleaner.*;
@@ -31,9 +34,13 @@ public class MainApplication {
 	private final CarUpdate carUpdate;
 	private final ViewCars viewCars;
 
+	// Booking dependencies
+	private final RegisterBooking registerBooking;
+	private final ViewAllBookings viewAllBookings;
+
 	public MainApplication(ViewUsers viewUsers, UserRegistration userRegistration, UserUpdate userUpdate,
 						   UserDelete userDelete, CarDelete carDelete, CarRegistration carRegistration,
-						   CarUpdate carUpdate, ViewCars viewCars) {
+						   CarUpdate carUpdate, ViewCars viewCars, RegisterBooking registerBooking, ViewAllBookings viewAllBookings) {
 		this.viewUsers = viewUsers;
 		this.userRegistration = userRegistration;
 		this.userUpdate = userUpdate;
@@ -42,6 +49,8 @@ public class MainApplication {
 		this.carRegistration = carRegistration;
 		this.carUpdate = carUpdate;
 		this.viewCars = viewCars;
+		this.registerBooking = registerBooking;
+		this.viewAllBookings = viewAllBookings;
 	}
 
 
@@ -66,57 +75,59 @@ public class MainApplication {
 		while (program) {
 
 			String message = """
-
-				-------------------------------------
-				1 --> Car Registration
-				2 --> View All cars
-				3 --> Car update
-				4 --> Car remove
-
-				0 --> Exit                         
-				------------------------------------					
-					""";
+				
+					-------------------------------------
+					1 --> Car Registration
+					2 --> View All cars
+					3 --> Car update
+					4 --> Car remove
+				
+					0 --> Exit                         
+					------------------------------------					
+						""";
 
 			System.out.println(message);
 			String input = scanner.nextLine();
 
 			switch (input) {
-				default -> System.out.println("Wrong Input try again ❌");
-				case "0" -> {
+				default:{
+					System.out.println("Wrong Input try again ❌");
+				}
+				case "0": {
 					System.out.println("Thank you for using our service, Have a great day.");
 					program = false;
 				}
-				case "1" -> {
+				case "1": {
 					screenCleaner();
 					System.out.println("--------- Car registration -------------------------------------\n");
 
 				}
-				case "2" -> {
+				case "2": {
 					screenCleaner();
 					System.out.println("--------- View All cars -------------------------------------\n");
 
 
 				}
-				case "3" -> {
+				case "3":{
 					screenCleaner();
 					System.out.println("--------- Car update -------------------------------------\n");
 
 				}
-				case "4" -> {
+				case "4":  {
 					screenCleaner();
 					System.out.println("--------- Car delete -------------------------------------\n");
 
 				}
-				case "5" -> {
+				case "5": {
 					System.out.println("--------- View ALL available cars -------------------------------------");
 
 				}
-				case "6" -> {
+				case "6": {
 					System.out.println("--------- Register new account -------------------------------------");
 
 				}
 
-				case "9" -> {
+				case "9": {
 
 				}
 
@@ -161,12 +172,15 @@ public class MainApplication {
 		System.out.println("Car: " + car.getBrand() + " " + car.getModel() + ", " + car.getYear() + ", " + car.getKw() + "kw");
 		System.out.println("Final price for " + numberOfDays + " day(s) = " + finalPrice + " €");
 
-		
+		Booking booking = new Booking(Integer.parseInt(numberOfDays),car.getRegNum(),user.getEmail());
+		registerBooking.saveBooking(booking);
+		viewAllBookings.showAllBookings();
 
+	}
 
-
-
-
+	private static String endDateCalc(int days) {
+		LocalDate endDate = LocalDate.now().plusDays(days);
+		return endDate.getDayOfMonth() + "." + endDate.getMonth() + "." + endDate.getYear();
 	}
 
 }

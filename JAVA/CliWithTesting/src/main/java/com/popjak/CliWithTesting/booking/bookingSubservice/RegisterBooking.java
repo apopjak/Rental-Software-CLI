@@ -4,16 +4,16 @@ import com.popjak.CliWithTesting.booking.*;
 import org.springframework.stereotype.*;
 
 @Component
-public class NewBooking {
+public class RegisterBooking {
 
     private final BookingDAO bookingDAO;
 
-    public NewBooking(BookingDAO bookingDAO) {
+    public RegisterBooking(BookingDAO bookingDAO) {
         this.bookingDAO = bookingDAO;
     }
 
 
-    void saveBooking(Booking booking) {
+    public void saveBooking(Booking booking) {
         bookingDAO.insertIntoDB(booking);
     }
 }
