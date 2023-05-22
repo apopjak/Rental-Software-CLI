@@ -36,7 +36,7 @@ public class CarUpdate {
             return;
         }
 
-        Car oldCar = carDAO.findById(Id);
+        Car oldCar = carDAO.findCarById(Id);
 
         System.out.print("Registration Number: ");
         String regNum = sc.nextLine().toUpperCase().trim();

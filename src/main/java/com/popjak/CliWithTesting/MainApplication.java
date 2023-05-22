@@ -28,9 +28,7 @@ public class MainApplication {
 	private final UserUpdate userUpdate;
 	private final UserDelete userDelete;
 
-
 	// Car dependencies
-
 	private final CarDelete carDelete;
 	private final CarRegistration carRegistration;
 	private final CarUpdate carUpdate;
@@ -76,7 +74,7 @@ public class MainApplication {
 	}
 
 	private void mainProgram() {
-
+		System.out.println(logo());
 		Scanner scanner = new Scanner(System.in);
 		boolean program = true;
 		while (program) {
@@ -122,10 +120,7 @@ public class MainApplication {
 					//TODO: create extramenu for this input
 				}
 			}
-
 		}
-
-
 	}
 
 	private void newBooking() {
@@ -139,7 +134,6 @@ public class MainApplication {
 			return;
 		}
 		User user = viewUsers.selectUserById(userEmail);
-
 
 		// *** CAR SELECTION ***
 		System.out.println("=====================================================================");
@@ -201,18 +195,32 @@ public class MainApplication {
 
 		// 3. Car entity deleted
 		carDelete.carDeleteEntity(car);
-
 		System.out.println("✅ Registration successful");
-
-
-
-
-
 	}
 
 	private static String endDateCalc(int days) {
 		LocalDate endDate = LocalDate.now().plusDays(days);
 		return endDate.getDayOfMonth() + "." + endDate.getMonth() + "." + endDate.getYear();
 	}
+
+	private String logo() {
+		String logo = """
+								
+				8888888b.                   888             888       .d8888b.                  \s
+				888   Y88b                  888             888      d88P  Y88b                 \s
+				888    888                  888             888      888    888                 \s
+				888   d88P .d88b.  88888b.  888888  8888b.  888      888         8888b.  888d888\s
+				8888888P" d8P  Y8b 888 "88b 888        "88b 888      888            "88b 888P"  \s
+				888 T88b  88888888 888  888 888    .d888888 888      888    888 .d888888 888    \s
+				888  T88b Y8b.     888  888 Y88b.  888  888 888      Y88b  d88P 888  888 888    \s
+				888   T88b "Y8888  888  888  "Y888 "Y888888 888       "Y8888P"  "Y888888 888    \s
+				                                                                                \s
+				                                                                                \s
+				                                                                                \s
+				""";
+		return logo;
+	}
+
+
 
 }

@@ -16,6 +16,6 @@ public class ViewCars {
     }
 
     public Car selectCarById(Integer Id) {
-        return carDAO.findById(Id);
+        return carDAO.findCarById(Id);
     }
 }

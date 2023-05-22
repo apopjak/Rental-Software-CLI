@@ -12,7 +12,7 @@ public interface CarDAO {
 
     void removerCarEntity(Car car);
 
-    Car findById(Integer Id);
+    Car findCarById(Integer Id);
 
     boolean existsById(Integer Id);
 

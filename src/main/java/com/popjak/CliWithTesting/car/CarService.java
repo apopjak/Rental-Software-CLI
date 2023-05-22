@@ -43,7 +43,7 @@ public class CarService implements CarDAO{
     }
 
     @Override
-    public Car findById(Integer Id) {
+    public Car findCarById(Integer Id) {
         if (!carRepository.existsCarById(Id)) {
             System.out.println("❌ This ID not in DB");
             return null;
