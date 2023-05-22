@@ -1,9 +1,14 @@
 # Rental Car Software
 ***
-This repository contains a rental car software project developed independently, without following a step-by-step course tutorial. The project is implemented using Java, Spring 6, and Hibernate JPA, adhering to professional coding practices and naming conventions.
+
+![img.png](img.png)
+
 
 ## Project Overview
-The rental car software is designed to manage the rental operations of a car rental company. It provides a user-friendly interface for customers to browse available cars, make reservations, and manage their bookings. Additionally, it offers administrative features for staff members to handle car inventory, pricing, and customer management.
+This repository contains a rental car software project developed independently, without following a step-by-step course tutorial.
+Rental Car Software CLI is a Java project that provides a command prompt interface for managing car rentals.
+Developed using Java, Maven, and incorporating testing of modules and unit testing. The project leverages Spring 6, Hibernate with JPA, and integrates with a PostgreSQL database running on Docker. This independent project demonstrates my skills in building a real-world application and is not a step-by-step tutorial.
+
 
 ## Technologies Used
 
@@ -12,7 +17,7 @@ The project utilizes the following technologies and frameworks:
 * Java: A robust and widely-used programming language for developing enterprise-grade applications.
 * Spring 6: A powerful and modular framework for building Java applications, providing support for dependency injection, MVC architecture, and more.
 * Hibernate JPA: An object-relational mapping (ORM) framework that simplifies database operations by mapping Java objects to database tables.
-* Unit tests, Mocking
+* PostgreSQL: The Rental Car Software CLI utilizes a PostgreSQL database running on Docker to efficiently manage and store car rental data. Leveraging the power of Docker, this feature ensures seamless database operations, enhancing the reliability and scalability of the application.
 * Other relevant libraries and tools that complement the core technologies.
 
 # Features
