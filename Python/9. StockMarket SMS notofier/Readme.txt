@@ -1,1 +1,0 @@
-Program uses API to compare prices of selected Stock and sends you text message if the prive moves in more than 5%.

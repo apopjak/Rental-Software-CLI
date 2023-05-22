@@ -1,1 +1,0 @@
-Basic consol game to get familiar with classes in Python

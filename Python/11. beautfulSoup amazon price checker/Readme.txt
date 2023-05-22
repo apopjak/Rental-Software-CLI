@@ -1,1 +1,0 @@
-Program checks amazon website. It uses beautifilSoup to webscrape the price of the product. If the price is bellow specific amount as per your request, u gonna get an email. 

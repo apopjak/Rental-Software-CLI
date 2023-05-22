@@ -1,1 +1,0 @@
-Simple snake game made in TkInger modul in python.
