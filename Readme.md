@@ -9,15 +9,15 @@ Developed using Java 17, Maven, Spring Boot 3, Hibernate JPA, PostgreSQL, and Do
 
 This project is an independent solo project and not the result of following any specific course or program. It has been developed to practice Java, Spring Boot, Docker and other technologies.
 
-![img_7.png](img_7.png)
+![.readme-images/img_7.png](./readme-images/img_7.png)
 
-![img_1.png](img_1.png)
-
-
-![img_6.png](img_6.png)
+![.readme-images/img_1.png](./readme-images/img_1.png)
 
 
-![img_5.png](img_5.png)
+![./readme-images/img_6.png](./readme-images/img_6.png)
+
+
+![.readme-images/img_5.png](./readme-images/img_5.png)
 
 
 
