@@ -1,12 +1,17 @@
 package com.popjak.Rental.booking;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.*;
 import java.time.format.*;
-import java.util.*;
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Table(name = "booking_data")
 
 public class Booking {
@@ -31,88 +36,11 @@ public class Booking {
     private Integer customerPaid;
 
 
-
-    public Booking() {
-    }
-
     public Booking(Integer bookingEndDate, String regNum, String userEmail, Integer customerPaid) {
         this.bookingDate = LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
         this.bookingEndDate = this.bookingDate.plusDays(bookingEndDate);
         this.regNum = regNum;
         this.userEmail = userEmail;
-        this.customerPaid = customerPaid;
-    }
-
-    @Override
-    public String toString() {
-        return "Booking{" +
-                "Id=" + Id +
-                ", bookingDate=" + bookingDate +
-                ", bookingEndDate=" + bookingEndDate +
-                ", regNum='" + regNum + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                ", customerPaid=" + customerPaid +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Booking booking = (Booking) o;
-        return Objects.equals(Id, booking.Id) && Objects.equals(bookingDate, booking.bookingDate) && Objects.equals(bookingEndDate, booking.bookingEndDate) && Objects.equals(regNum, booking.regNum) && Objects.equals(userEmail, booking.userEmail) && Objects.equals(customerPaid, booking.customerPaid);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(Id, bookingDate, bookingEndDate, regNum, userEmail, customerPaid);
-    }
-
-    public Integer getId() {
-        return Id;
-    }
-
-    public void setId(Integer id) {
-        Id = id;
-    }
-
-    public LocalDate getBookingDate() {
-        return bookingDate;
-    }
-
-    public void setBookingDate(LocalDate bookingDate) {
-        this.bookingDate = bookingDate;
-    }
-
-    public LocalDate getBookingEndDate() {
-        return bookingEndDate;
-    }
-
-    public void setBookingEndDate(LocalDate bookingEndDate) {
-        this.bookingEndDate = bookingEndDate;
-    }
-
-    public String getRegNum() {
-        return regNum;
-    }
-
-    public void setRegNum(String regNum) {
-        this.regNum = regNum;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public Integer getCustomerPaid() {
-        return customerPaid;
-    }
-
-    public void setCustomerPaid(Integer customerPaid) {
         this.customerPaid = customerPaid;
     }
 }
