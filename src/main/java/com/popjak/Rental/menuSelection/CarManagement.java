@@ -56,7 +56,7 @@ public class CarManagement {
                 }
                 case "1" ->{
                     System.out.println("================= Show All Available Cars =================");
-                    carView.viewAllCars();
+                    carView.viewAllCarsBasedOnEngineType();
                 }
                 case "2" ->{
                     System.out.println("================= Show All Rented Cars =================");

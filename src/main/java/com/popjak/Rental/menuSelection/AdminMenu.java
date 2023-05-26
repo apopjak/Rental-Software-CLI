@@ -7,7 +7,6 @@ import java.util.*;
 @Component
 public class AdminMenu {
 
-
     private final CarManagement carManagement;
     private final UserManagement userManagement;
     private final BookingManagement bookingManagement;
@@ -17,7 +16,6 @@ public class AdminMenu {
         this.userManagement = userManagement;
         this.bookingManagement = bookingManagement;
     }
-
 
     public void adminMenu() {
 
@@ -47,11 +45,9 @@ public class AdminMenu {
                 }
                 case "1" ->{
                     carManagement.carManagementMenu();
-
                 }
                 case "2" ->{
                     userManagement.userManagementMenu();
-
                 }
                 case "3" ->{
                     bookingManagement.bookingManagementMenu();

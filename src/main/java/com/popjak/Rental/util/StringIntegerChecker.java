@@ -8,15 +8,13 @@ public class StringIntegerChecker {
     */
 
     public static String stringIntegerChecker(String string) {
-        if (string == null || string.isEmpty() || string.isBlank()) {
+        if (string.isEmpty()) {
             return null;
         }
-        try {
-            Integer integer = Integer.parseInt(string);
-            return String.valueOf(integer);
-        } catch (NumberFormatException e) {
-            System.out.println("❌ -> Incorrect number input");
+        if (!string.chars().allMatch(Character::isDigit)) {
+            System.out.println("❌ Incorrect digit");
             return null;
         }
+        return string;
     }
 }

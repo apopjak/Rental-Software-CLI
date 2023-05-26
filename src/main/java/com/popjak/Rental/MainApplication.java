@@ -142,7 +142,8 @@ public class MainApplication {
 
 		// *** CAR SELECTION ***
 		System.out.println("=====================================================================");
-		carView.viewAllCars();
+		// TODO FIX THIS
+//		carView.viewAllCars();
 		System.out.println("=====================================================================\n");
 
 		System.out.print("Enter ID of the car you want to rent: ");

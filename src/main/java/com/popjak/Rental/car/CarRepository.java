@@ -11,5 +11,4 @@ public interface CarRepository extends JpaRepository<Car,Integer> {
     boolean existsCarByRegNum(String regNum);
 
     Car findCarById(Integer Id);
-
 }
